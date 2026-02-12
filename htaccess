@@ -1,0 +1,29 @@
+ErrorDocument 403 /project5263250/page26842590.html
+ErrorDocument 404 /project5263250/page26842590.html
+
+DirectoryIndex index.html
+
+RewriteEngine On
+
+RewriteCond %{HTTP:X-Forwarded-Proto} =http
+RewriteRule ^(.*)$ https://aihub\.works/$1 [R=301,L]
+
+RewriteCond %{HTTP:X-Forwarded-Proto} =https
+RewriteCond %{HTTP_HOST} ^www\.aihub.works [NC]
+RewriteRule ^(.*)$ https://aihub\.works/$1 [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} /robots.txt
+RewriteCond "%{DOCUMENT_ROOT}/project5263250/robots_%{HTTP_HOST}.txt" -f
+RewriteRule ^(.*)$ robots_%{HTTP_HOST}.txt [NC,L]
+RewriteRule ^failpage$ page26842590.html [NC]
+RewriteRule ^failpage/$ page26842590.html [NC]
+
+RewriteRule ^ru$ page62080507.html [NC]
+RewriteRule ^ru/$ page62080507.html [NC]
+
+RewriteRule ^en$ index.html [NC]
+RewriteRule ^en/$ index.html [NC]
+
+RewriteRule ^test$ page68021483.html [NC]
+RewriteRule ^test/$ page68021483.html [NC]
+

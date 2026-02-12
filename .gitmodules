@@ -1,0 +1,3 @@
+[submodule "vendor/aihubworkseng"]
+	path = vendor/aihubworkseng
+	url = https://github.com/HaiCora2024/aihub.works.git

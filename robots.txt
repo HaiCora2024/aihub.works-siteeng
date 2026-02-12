@@ -1,0 +1,16 @@
+User-Agent: *
+Disallow: /page26842590.html
+Disallow: /failpage
+Disallow: /tilda/form*
+Disallow: /tilda/rec*
+Disallow: /tilda/click*
+Disallow: /tilda/scroll*
+Disallow: /tilda/popup*
+Disallow: /tilda/cart*
+Disallow: /tilda/product*
+Disallow: /tilda/event*
+Disallow:
+
+
+Sitemap: https://aihub.works/sitemap.xml
+Sitemap: https://aihub.works/sitemap-feeds.xml
