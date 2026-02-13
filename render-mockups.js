@@ -45,7 +45,7 @@ const render = async () => {
   for (const width of breakpoints) {
     const page = await context.newPage();
     await page.setViewportSize({ width, height: 900 });
-    await page.goto(fileUrl, { waitUntil: "networkidle" });
+    await page.goto(fileUrl, { waitUntil: "domcontentloaded", timeout: 60000 });
     await page.waitForTimeout(300);
     await page.addStyleTag({
       content: "body::before, body::after { display: none !important; }",
