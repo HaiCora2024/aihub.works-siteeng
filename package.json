@@ -1,0 +1,8 @@
+{
+  "name": "aihub.works-siteeng",
+  "private": true,
+  "scripts": {
+    "render": "node render-mockups.js",
+    "render:watch": "node render-mockups.js --watch"
+  }
+}
