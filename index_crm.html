@@ -242,13 +242,19 @@
   .cta-box .cta-sub-text { color:var(--muted); font-size:16px; margin-bottom:36px; }
   .cta-btn { display:inline-flex; align-items:center; gap:12px; background:var(--accent); color:#fff; text-decoration:none; padding:17px 38px; border-radius:14px; font-size:17px; font-weight:700; transition:transform .2s,box-shadow .2s; box-shadow:0 0 50px rgba(108,92,231,.25); }
   .cta-btn:hover { transform:translateY(-3px); box-shadow:0 0 70px rgba(108,92,231,.38); }
-  .cta-meta { margin-top:20px; font-size:13px; color:var(--muted); }
-  .share-block { margin-top:44px; padding-top:36px; border-top:1px solid var(--border2); }
-  .share-block p { font-size:14px; color:var(--muted); margin-bottom:14px; }
-  .share-text { background:var(--bg3); border:1px solid var(--border2); border-radius:10px; padding:14px 18px; font-size:13.5px; text-align:left; line-height:1.65; margin-bottom:12px; }
-  .copy-btn { background:none; border:1px solid var(--border); color:var(--accent2); font-size:13px; padding:7px 18px; border-radius:8px; cursor:pointer; transition:background .2s; }
-  .copy-btn:hover { background:var(--bg2); }
-  .copy-btn.done { color:var(--green); border-color:rgba(16,217,138,.3); }
+  /* HERO BUTTONS */
+  .hero-cta-wrap { display:flex; gap:14px; flex-wrap:wrap; }
+  .hero-cta-ghost { display:inline-flex; align-items:center; gap:12px; background:transparent; color:var(--accent2); text-decoration:none; padding:16px 32px; border-radius:12px; font-size:16px; font-weight:700; border:2px solid rgba(108,92,231,.35); transition:border-color .2s,background .2s; }
+  .hero-cta-ghost:hover { border-color:var(--accent); background:rgba(108,92,231,.06); }
+
+  /* CONTACT CARD */
+  .contact-card { display:inline-flex; align-items:center; gap:16px; background:var(--bg3); border:1px solid var(--border2); border-radius:16px; padding:16px 24px; margin-bottom:28px; text-align:left; }
+  .contact-card img { width:52px; height:52px; border-radius:50%; object-fit:cover; flex-shrink:0; }
+  .contact-name { font-size:15px; font-weight:700; margin-bottom:3px; }
+  .contact-role { font-size:12px; color:var(--muted); }
+
+  /* DEMO MOBILE DIVIDER */
+  .demo-arrow { display:none; text-align:center; font-size:22px; color:var(--accent); margin:4px 0; }
 
   footer { border-top:1px solid var(--border2); padding:28px; text-align:center; color:var(--muted); font-size:13px; }
 
@@ -256,14 +262,18 @@
   @media(max-width:700px) {
     section,#demo,#metric,#crm-mockup,#cta,#hero { padding-left:18px; padding-right:18px; }
     .demo-grid,.feat-grid { grid-template-columns:1fr; }
-    .hero-stats { gap:24px; }
+    .demo-arrow { display:block; }
+    .hero-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+    .hero-cta-wrap { flex-direction:column; }
+    .hero-cta, .hero-cta-ghost { justify-content:center; }
     .mockup-body { grid-template-columns:1fr; }
     .m-sidebar { display:none; }
     .stat-tiles { grid-template-columns:repeat(2,1fr); }
-    .kanban { grid-template-columns:repeat(2,1fr); }
+    .kanban { grid-template-columns:repeat(4,150px); overflow-x:auto; padding-bottom:8px; }
     .chat-layout { grid-template-columns:1fr; }
     .chat-list { display:none; }
     .cta-box { padding:36px 20px; }
+    .contact-card { flex-direction:column; text-align:center; }
     nav { padding:12px 18px; }
     .metric-nums { gap:16px; }
   }
@@ -283,10 +293,16 @@
   <div class="eyebrow">Practical AI — CRM для мессенджеров</div>
   <h1><span class="strike">Групповые чаты</span><br>— это <span class="accent">не CRM</span></h1>
   <p class="hero-sub">Каждая сделка начинается в Telegram. Но там же теряется. Мы превращаем хаос переписок в управляемую систему.</p>
-  <a href="#demo" class="hero-cta">
-    Смотреть как это работает
-    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l7 7-7 7"/></svg>
-  </a>
+  <div class="hero-cta-wrap">
+    <a href="#demo" class="hero-cta">
+      Смотреть как это работает
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l7 7-7 7"/></svg>
+    </a>
+    <a href="https://t.me/danil_alto" class="hero-cta-ghost">
+      Написать нам
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </a>
+  </div>
   <div class="hero-stats">
     <div><div class="stat-num" id="ctr1">40 сек</div><div class="stat-label">среднее время ответа оператора</div></div>
     <div><div class="stat-num">0%</div><div class="stat-label">сделок теряется после внедрения</div></div>
@@ -315,11 +331,12 @@
   <p class="section-sub reveal">Клиент пишет в групповой чат. Система автоматически извлекает сделку и передаёт оператору — без шума.</p>
 
   <div class="demo-grid">
-    <div class="demo-panel">
+    <div class="demo-panel" style="order:1">
       <div class="panel-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><span class="panel-title">Telegram — Рабочая группа OTC</span></div>
       <div class="tg-chat" id="tg-chat"></div>
     </div>
-    <div class="demo-panel">
+    <div class="demo-arrow">↓ система извлекает сделку</div>
+    <div class="demo-panel" style="order:2">
       <div class="panel-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><span class="panel-title">CRM — что видит оператор</span></div>
       <div class="crm-panel-body">
         <div class="crm-new" id="c-new">Новая сделка</div>
@@ -339,7 +356,7 @@
   <!-- MID CTA -->
   <div style="text-align:center;margin-top:48px">
     <a href="https://t.me/danil_alto" style="display:inline-flex;align-items:center;gap:10px;background:rgba(108,92,231,0.1);color:var(--accent2);text-decoration:none;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:600;border:1px solid rgba(108,92,231,0.28);transition:background .2s" onmouseover="this.style.background='rgba(108,92,231,0.18)'" onmouseout="this.style.background='rgba(108,92,231,0.1)'">
-      Хочу такое для своей команды — написать
+      Хочу так же → написать нам
       <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
     </a>
   </div>
@@ -587,10 +604,14 @@
   <div class="cta-box reveal">
     <div class="section-label" style="text-align:center;margin-bottom:14px">Следующий шаг</div>
     <h2>Покажи как устроено сейчас<br>— разберём за 20 минут</h2>
-    <div class="share-block" style="margin-top:0;padding-top:0;border-top:none;margin-bottom:36px">
-      <p>Знаешь кого-то с такой же болью?</p>
-      <div class="share-text" id="share-text">Смотри, нашёл ребят которые делают CRM для команд в мессенджерах. Реальная система в продакшене — Telegram User API, единое окно, аналитика операторов. Время ответа с 4 минут до 40 секунд. Может быть актуально: https://practical-ai.pro/crm</div>
-      <button class="copy-btn" onclick="copyShare(this)">Скопировать текст</button>
+    <div style="margin-bottom:28px">
+      <div class="contact-card">
+        <img src="../images/Danil_Usik.png" alt="Данил Усик">
+        <div>
+          <div class="contact-name">Данил Усик</div>
+          <div class="contact-role">AI Solutions Lead · AIHUB.WORKS</div>
+        </div>
+      </div>
     </div>
     <a href="https://t.me/danil_alto" class="cta-btn">
       Написать нам
