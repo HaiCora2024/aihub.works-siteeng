@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM для команд в мессенджерах — Practical AI</title>
+<style>
+  :root {
+    --bg: #f7f7ff;
+    --bg2: #ececf8;
+    --bg3: #e2e2f4;
+    --bg4: #f0f0fb;
+    --accent: #6c5ce7;
+    --accent2: #5244c4;
+    --green: #0aaa6a;
+    --red: #d63c3c;
+    --yellow: #b38600;
+    --text: #16162a;
+    --muted: #6a6a99;
+    --border: rgba(108,92,231,0.2);
+    --border2: rgba(0,0,0,0.09);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; line-height:1.6; overflow-x:hidden; }
+
+  /* PROGRESS */
+  #progress-bar { position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--accent),var(--green)); width:0%; z-index:9999; transition:width 0.1s; }
+
+  /* NAV */
+  nav { position:fixed; top:0; left:0; right:0; padding:14px 32px; display:flex; align-items:center; justify-content:space-between; z-index:100; background:rgba(247,247,255,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+  .logo { font-size:15px; font-weight:700; letter-spacing:.05em; color:var(--accent2); }
+  .logo span { color:var(--muted); font-weight:400; }
+  nav a { color:#fff; text-decoration:none; font-size:14px; padding:8px 20px; background:var(--accent); border-radius:8px; font-weight:600; transition:opacity .2s; }
+  nav a:hover { opacity:.85; }
+
+  /* LAYOUT */
+  .wrap { max-width:900px; margin:0 auto; padding:0 32px; }
+
+  /* REVEAL */
+  .reveal { opacity:0; transform:translateY(28px); transition:opacity .65s ease,transform .65s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+
+  /* HERO */
+  #hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; max-width:900px; margin:0 auto; padding:120px 32px 80px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--accent); margin-bottom:24px; display:inline-flex; align-items:center; gap:8px; }
+  .eyebrow::before { content:''; width:24px; height:2px; background:var(--accent); display:inline-block; }
+  h1 { font-size:clamp(36px,6vw,72px); font-weight:800; line-height:1.1; letter-spacing:-.02em; margin-bottom:24px; }
+  h1 .accent { color:var(--accent2); }
+  h1 .strike { text-decoration:line-through; color:var(--muted); text-decoration-color:var(--red); }
+  .hero-sub { font-size:18px; color:var(--muted); max-width:540px; margin-bottom:44px; line-height:1.7; }
+  .hero-cta { display:inline-flex; align-items:center; gap:12px; background:var(--accent); color:#fff; text-decoration:none; padding:16px 32px; border-radius:12px; font-size:16px; font-weight:700; transition:transform .2s,box-shadow .2s; box-shadow:0 0 40px rgba(108,92,231,.22); }
+  .hero-cta:hover { transform:translateY(-2px); box-shadow:0 0 60px rgba(108,92,231,.35); }
+  .hero-stats { display:flex; gap:48px; margin-top:60px; padding-top:48px; border-top:1px solid var(--border); flex-wrap:wrap; }
+  .stat-num { font-size:36px; font-weight:800; color:var(--green); line-height:1; margin-bottom:4px; }
+  .stat-label { font-size:13px; color:var(--muted); }
+
+  /* SECTION LABELS */
+  .section-label { font-size:12px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--accent); margin-bottom:14px; }
+  h2 { font-size:clamp(28px,4vw,48px); font-weight:800; letter-spacing:-.02em; margin-bottom:14px; line-height:1.15; }
+  .section-sub { font-size:16px; color:var(--muted); margin-bottom:48px; max-width:520px; }
+  section { padding:100px 32px; max-width:900px; margin:0 auto; }
+
+  /* PAIN */
+  .pain-list { display:flex; flex-direction:column; gap:14px; }
+  .pain-item { display:flex; align-items:flex-start; gap:16px; padding:18px 22px; background:var(--bg2); border:1px solid var(--border2); border-radius:12px; opacity:0; transform:translateX(-16px); transition:opacity .4s,transform .4s; }
+  .pain-item.show { opacity:1; transform:none; }
+  .pain-icon { font-size:20px; line-height:1; margin-top:2px; flex-shrink:0; }
+  .pain-text strong { display:block; font-size:15px; margin-bottom:3px; }
+  .pain-text span { font-size:13px; color:var(--muted); }
+
+  /* ── DEMO SECTION ── */
+  #demo { padding:100px 32px; max-width:1040px; margin:0 auto; }
+  .demo-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:44px; }
+
+  /* shared panel */
+  .demo-panel { background:var(--bg2); border:1px solid var(--border2); border-radius:16px; overflow:hidden; }
+  .panel-bar { padding:11px 14px; background:rgba(0,0,0,.05); border-bottom:1px solid var(--border2); display:flex; align-items:center; gap:7px; }
+  .dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .dot-r { background:#ff5c57; }
+  .dot-y { background:#febc2e; }
+  .dot-g { background:#28c840; }
+  .panel-title { font-size:11px; color:var(--muted); margin-left:4px; font-weight:500; }
+
+  /* Telegram chat */
+  .tg-chat { padding:14px 12px; min-height:300px; display:flex; flex-direction:column; gap:7px; }
+  .tg-msg { display:flex; gap:8px; align-items:flex-start; opacity:0; transform:translateY(6px); transition:opacity .3s,transform .3s; }
+  .tg-msg.show { opacity:1; transform:none; }
+  .tg-ava { width:30px; height:30px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; }
+  .tg-bubble { padding:8px 11px; border-radius:10px; max-width:calc(100% - 42px); font-size:12.5px; line-height:1.45; }
+  .tg-name { font-weight:700; font-size:11px; margin-bottom:2px; }
+  .tg-noise { color:var(--muted); }
+  .tg-trigger { color:var(--green); font-weight:600; }
+
+  /* CRM panel — real-style */
+  .crm-panel-body { padding:16px; min-height:300px; }
+  .crm-new { font-size:10px; font-weight:700; background:rgba(16,217,138,.15); color:var(--green); padding:3px 9px; border-radius:20px; display:inline-flex; align-items:center; gap:5px; margin-bottom:12px; opacity:0; transition:opacity .4s 1.6s; }
+  .crm-new.show { opacity:1; }
+  .crm-new::before { content:''; width:6px; height:6px; background:var(--green); border-radius:50%; animation:pulse 1.2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+  .crm-deal-name { font-size:16px; font-weight:800; margin-bottom:14px; opacity:0; transform:translateY(6px); transition:opacity .4s 1.8s,transform .4s 1.8s; }
+  .crm-deal-name.show { opacity:1; transform:none; }
+
+  .crm-row { display:flex; gap:8px; margin-bottom:9px; font-size:12px; opacity:0; transition:opacity .35s; }
+  .crm-row.show { opacity:1; }
+  .crm-k { color:var(--muted); min-width:72px; }
+  .crm-v { font-weight:600; }
+  .crm-v.hi { color:var(--green); }
+  .crm-v.hi2 { color:var(--accent2); }
+
+  .crm-sep { border:none; border-top:1px solid var(--border2); margin:12px 0; opacity:0; transition:opacity .3s; }
+  .crm-sep.show { opacity:1; }
+  .crm-skip { font-size:11px; color:var(--muted); font-style:italic; opacity:0; transition:opacity .3s; }
+  .crm-skip.show { opacity:1; }
+
+  .demo-note { text-align:center; font-size:13px; color:var(--muted); margin-top:18px; }
+  .demo-note button { background:none; border:1px solid var(--border); color:var(--accent2); font-size:12px; padding:5px 14px; border-radius:6px; cursor:pointer; margin-left:8px; transition:background .2s; }
+  .demo-note button:hover { background:var(--bg2); }
+
+  /* ── METRIC ── */
+  #metric { padding:60px 32px; max-width:900px; margin:0 auto; }
+  .metric-box { background:var(--bg2); border:1px solid var(--border2); border-radius:24px; padding:60px 32px; text-align:center; position:relative; overflow:hidden; }
+  .metric-box::before { content:''; position:absolute; top:-60px; left:50%; transform:translateX(-50%); width:320px; height:320px; background:radial-gradient(circle,rgba(108,92,231,.1) 0%,transparent 70%); pointer-events:none; }
+  .metric-tag { font-size:12px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:32px; }
+  .metric-nums { display:flex; align-items:center; justify-content:center; gap:28px; margin-bottom:20px; }
+  .m-block { text-align:center; }
+  .m-num { font-size:clamp(56px,10vw,104px); font-weight:900; line-height:1; }
+  .m-unit { font-size:18px; color:var(--muted); margin-top:4px; }
+  .m-arrow { font-size:28px; color:var(--muted); padding-bottom:20px; }
+  .m-desc { font-size:15px; color:var(--muted); max-width:440px; margin:0 auto; }
+
+  /* ── CRM INTERFACE MOCKUP ── */
+  #crm-mockup { padding:100px 32px; max-width:1040px; margin:0 auto; }
+  .mockup-shell { background:var(--bg4); border:1px solid var(--border2); border-radius:20px; overflow:hidden; margin-top:44px; box-shadow:0 24px 60px rgba(0,0,0,.1); }
+  .mockup-titlebar { background:rgba(0,0,0,.06); padding:11px 16px; display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border2); }
+  .mockup-titlebar span { font-size:11px; color:var(--muted); margin-left:6px; }
+  .mockup-body { display:grid; grid-template-columns:200px 1fr; min-height:420px; }
+
+  /* sidebar */
+  .m-sidebar { border-right:1px solid var(--border2); padding:12px 0; background:rgba(0,0,0,.04); }
+  .m-nav-item { padding:10px 18px; font-size:12.5px; color:var(--muted); display:flex; align-items:center; gap:10px; cursor:default; transition:background .15s,color .15s; border-left:2px solid transparent; }
+  .m-nav-item.active { background:rgba(108,92,231,.1); color:var(--accent2); font-weight:600; border-left-color:var(--accent); }
+  .m-nav-item:hover:not(.active) { background:rgba(0,0,0,.04); }
+  .m-nav-icon { width:16px; text-align:center; font-size:14px; }
+
+  /* main area */
+  .m-main { padding:20px 20px; overflow:hidden; }
+  .m-tabs { display:flex; gap:4px; margin-bottom:18px; }
+  .m-tab { padding:6px 16px; font-size:12px; border-radius:6px; cursor:default; border:1px solid transparent; }
+  .m-tab.active { background:rgba(108,92,231,.12); color:var(--accent2); border-color:rgba(108,92,231,.28); font-weight:600; }
+  .m-tab:not(.active) { color:var(--muted); }
+
+  /* stat tiles */
+  .stat-tiles { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:18px; }
+  .stat-tile { background:rgba(255,255,255,.7); border:1px solid var(--border2); border-radius:10px; padding:12px 14px; }
+  .st-num { font-size:22px; font-weight:800; line-height:1; margin-bottom:4px; }
+  .st-label { font-size:10px; color:var(--muted); line-height:1.3; }
+  .st-green { color:var(--green); }
+  .st-purple { color:var(--accent2); }
+  .st-yellow { color:var(--yellow); }
+  .st-red { color:var(--red); }
+
+  /* kanban */
+  .kanban { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .kb-col {}
+  .kb-col-head { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; }
+  .kb-count { background:var(--bg2); padding:2px 7px; border-radius:5px; font-size:10px; color:var(--text); }
+  .kb-card { background:var(--bg3); border:1px solid var(--border2); border-radius:8px; padding:10px 11px; margin-bottom:8px; font-size:11px; transition:border-color .2s; }
+  .kb-card:hover { border-color:rgba(108,92,231,.35); }
+  .kb-name { font-weight:700; font-size:12px; color:var(--text); margin-bottom:5px; }
+  .kb-badges { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:5px; }
+  .badge { display:inline-flex; align-items:center; gap:3px; padding:2px 7px; border-radius:4px; font-size:10px; font-weight:600; }
+  .b-ig { background:rgba(255,100,100,.12); color:#ff9090; }
+  .b-tg { background:rgba(50,150,255,.12); color:#78b8ff; }
+  .b-int { background:rgba(100,100,200,.12); color:#a0a0ee; }
+  .b-bot { background:rgba(108,92,231,.12); color:var(--accent2); }
+  .b-conv { background:rgba(16,217,138,.13); color:var(--green); }
+  .b-wait { background:rgba(255,215,64,.12); color:var(--yellow); }
+  .b-fail { background:rgba(255,82,82,.12); color:var(--red); }
+  .kb-time { font-size:10px; color:var(--muted); }
+
+  /* chat panel */
+  .chat-mockup { margin-top:44px; }
+  .chat-shell { background:var(--bg4); border:1px solid var(--border2); border-radius:20px; overflow:hidden; box-shadow:0 24px 60px rgba(0,0,0,.1); }
+  .chat-layout { display:grid; grid-template-columns:260px 1fr; min-height:380px; }
+  .chat-list { border-right:1px solid var(--border2); padding:12px 0; background:rgba(0,0,0,.04); }
+  .chat-list-head { padding:8px 16px; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; display:flex; align-items:center; gap:8px; }
+  .search-bar { margin:0 12px 10px; background:rgba(255,255,255,.6); border:1px solid var(--border2); border-radius:8px; padding:6px 12px; font-size:12px; color:var(--muted); display:flex; align-items:center; gap:6px; }
+  .chat-list-item { padding:10px 16px; display:flex; gap:10px; align-items:flex-start; cursor:default; transition:background .15s; border-left:2px solid transparent; }
+  .chat-list-item.active { background:rgba(108,92,231,.1); border-left-color:var(--accent); }
+  .chat-list-item:hover:not(.active) { background:rgba(0,0,0,.04); }
+  .cli-ava { width:32px; height:32px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; background:rgba(108,92,231,.15); color:var(--accent2); }
+  .cli-ava.ig { background:rgba(255,100,100,.15); color:#ff9090; }
+  .cli-meta { flex:1; min-width:0; }
+  .cli-name { font-size:12px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .cli-preview { font-size:11px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .cli-time { font-size:10px; color:var(--muted); flex-shrink:0; }
+
+  /* chat view */
+  .chat-view { display:flex; flex-direction:column; }
+  .chat-view-head { padding:12px 20px; border-bottom:1px solid var(--border2); display:flex; align-items:center; justify-content:space-between; background:rgba(0,0,0,.04); }
+  .chat-user-info {}
+  .chat-user-name { font-size:14px; font-weight:700; }
+  .chat-user-meta { font-size:11px; color:var(--muted); }
+  .chat-source { font-size:11px; color:var(--accent2); background:rgba(108,92,231,.1); padding:3px 10px; border-radius:5px; }
+
+  .chat-messages { flex:1; padding:16px 20px; display:flex; flex-direction:column; gap:12px; overflow-y:auto; }
+  .chat-ai-msg { display:flex; gap:10px; align-items:flex-start; }
+  .ai-ava { width:28px; height:28px; border-radius:50%; background:rgba(16,217,138,.15); color:var(--green); display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; }
+  .ai-bubble { background:rgba(16,217,138,.08); border:1px solid rgba(16,217,138,.2); border-radius:10px; padding:10px 14px; font-size:12.5px; line-height:1.55; max-width:80%; }
+  .ai-bubble .ai-label { font-size:10px; font-weight:700; color:var(--green); margin-bottom:4px; letter-spacing:.05em; }
+
+  .chat-client-msg { display:flex; flex-direction:row-reverse; gap:10px; align-items:flex-start; }
+  .client-ava { width:28px; height:28px; border-radius:50%; background:rgba(255,100,100,.15); color:#ff9090; display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; }
+  .client-bubble { background:var(--bg3); border:1px solid var(--border2); border-radius:10px; padding:10px 14px; font-size:12.5px; line-height:1.55; max-width:80%; }
+
+  .chat-input { padding:12px 20px; border-top:1px solid var(--border2); background:rgba(0,0,0,.04); }
+  .chat-input-bar { background:rgba(255,255,255,.6); border:1px solid var(--border2); border-radius:10px; padding:10px 14px; font-size:12px; color:var(--muted); display:flex; align-items:center; justify-content:space-between; }
+  .send-btn { background:var(--accent); color:#fff; border:none; border-radius:6px; padding:5px 12px; font-size:11px; cursor:default; }
+
+  /* FEATURES */
+  .feat-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:44px; }
+  .feat-card { background:var(--bg2); border:1px solid var(--border2); border-radius:16px; padding:26px; transition:border-color .3s,transform .3s; }
+  .feat-card:hover { border-color:rgba(108,92,231,.4); transform:translateY(-3px); }
+  .feat-icon { font-size:30px; margin-bottom:14px; }
+  .feat-card h3 { font-size:17px; font-weight:700; margin-bottom:9px; }
+  .feat-card p { font-size:13.5px; color:var(--muted); line-height:1.6; }
+
+  /* STEPS */
+  .steps { display:flex; flex-direction:column; margin-top:44px; position:relative; }
+  .steps::before { content:''; position:absolute; left:23px; top:48px; bottom:48px; width:2px; background:linear-gradient(to bottom,var(--accent),transparent); }
+  .step { display:flex; gap:22px; padding:22px 0; align-items:flex-start; }
+  .step-n { width:46px; height:46px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:17px; flex-shrink:0; position:relative; z-index:1; }
+  .step-c h3 { font-size:17px; font-weight:700; margin-bottom:7px; }
+  .step-c p { font-size:13.5px; color:var(--muted); }
+
+  /* CTA */
+  #cta { padding:80px 32px 120px; max-width:900px; margin:0 auto; }
+  .cta-box { background:var(--bg2); border:1px solid var(--border2); border-radius:28px; padding:60px 48px; text-align:center; position:relative; overflow:hidden; }
+  .cta-box::after { content:''; position:absolute; bottom:-80px; right:-80px; width:300px; height:300px; background:radial-gradient(circle,rgba(108,92,231,.09) 0%,transparent 70%); pointer-events:none; }
+  .cta-box h2 { margin-bottom:14px; }
+  .cta-box .cta-sub-text { color:var(--muted); font-size:16px; margin-bottom:36px; }
+  .cta-btn { display:inline-flex; align-items:center; gap:12px; background:var(--accent); color:#fff; text-decoration:none; padding:17px 38px; border-radius:14px; font-size:17px; font-weight:700; transition:transform .2s,box-shadow .2s; box-shadow:0 0 50px rgba(108,92,231,.25); }
+  .cta-btn:hover { transform:translateY(-3px); box-shadow:0 0 70px rgba(108,92,231,.38); }
+  .cta-meta { margin-top:20px; font-size:13px; color:var(--muted); }
+  .share-block { margin-top:44px; padding-top:36px; border-top:1px solid var(--border2); }
+  .share-block p { font-size:14px; color:var(--muted); margin-bottom:14px; }
+  .share-text { background:var(--bg3); border:1px solid var(--border2); border-radius:10px; padding:14px 18px; font-size:13.5px; text-align:left; line-height:1.65; margin-bottom:12px; }
+  .copy-btn { background:none; border:1px solid var(--border); color:var(--accent2); font-size:13px; padding:7px 18px; border-radius:8px; cursor:pointer; transition:background .2s; }
+  .copy-btn:hover { background:var(--bg2); }
+  .copy-btn.done { color:var(--green); border-color:rgba(16,217,138,.3); }
+
+  footer { border-top:1px solid var(--border2); padding:28px; text-align:center; color:var(--muted); font-size:13px; }
+
+  /* MOBILE */
+  @media(max-width:700px) {
+    section,#demo,#metric,#crm-mockup,#cta,#hero { padding-left:18px; padding-right:18px; }
+    .demo-grid,.feat-grid { grid-template-columns:1fr; }
+    .hero-stats { gap:24px; }
+    .mockup-body { grid-template-columns:1fr; }
+    .m-sidebar { display:none; }
+    .stat-tiles { grid-template-columns:repeat(2,1fr); }
+    .kanban { grid-template-columns:repeat(2,1fr); }
+    .chat-layout { grid-template-columns:1fr; }
+    .chat-list { display:none; }
+    .cta-box { padding:36px 20px; }
+    nav { padding:12px 18px; }
+    .metric-nums { gap:16px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav>
+  <div class="logo">Practical<span>.AI</span></div>
+  <a href="https://t.me/danil_alto">Написать в Telegram</a>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="eyebrow">Practical AI — CRM для мессенджеров</div>
+  <h1><span class="strike">Групповые чаты</span><br>— это <span class="accent">не CRM</span></h1>
+  <p class="hero-sub">Каждая сделка начинается в Telegram. Но там же теряется. Мы превращаем хаос переписок в управляемую систему.</p>
+  <a href="#demo" class="hero-cta">
+    Смотреть как это работает
+    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l7 7-7 7"/></svg>
+  </a>
+  <div class="hero-stats">
+    <div><div class="stat-num" id="ctr1">40 сек</div><div class="stat-label">среднее время ответа оператора</div></div>
+    <div><div class="stat-num">0%</div><div class="stat-label">сделок теряется после внедрения</div></div>
+    <div><div class="stat-num">TG+WA</div><div class="stat-label">+Instagram в едином окне</div></div>
+  </div>
+</div>
+
+<!-- PAIN -->
+<section class="reveal">
+  <div class="section-label">Боль</div>
+  <h2>Узнаёшь свою команду?</h2>
+  <p class="section-sub">5–10 операторов в групповом чате. Сделки тонут в шуме. Никто не знает чья заявка.</p>
+  <div class="pain-list" id="painlist">
+    <div class="pain-item"><div class="pain-icon">💬</div><div class="pain-text"><strong>Операторы тонут в переписке</strong><span>В группе из 10 человек никто не понимает — кто чей клиент и кто что обещал</span></div></div>
+    <div class="pain-item"><div class="pain-icon">🔀</div><div class="pain-text"><strong>История теряется при смене канала</strong><span>Клиент писал в Telegram, продолжил в WhatsApp — контекст потерян</span></div></div>
+    <div class="pain-item"><div class="pain-icon">🌍</div><div class="pain-text"><strong>Невозможно контролировать удалённую команду</strong><span>Операторы в другой стране — ни метрик, ни логов, ни понимания что происходит</span></div></div>
+    <div class="pain-item"><div class="pain-icon">🔑</div><div class="pain-text"><strong>Аккаунты и пароли у операторов</strong><span>Уволился сотрудник — унёс с собой доступ к клиентской базе</span></div></div>
+    <div class="pain-item"><div class="pain-icon">📊</div><div class="pain-text"><strong>Нет данных — нет решений</strong><span>Сколько сделок сорвалось? Где бутылочное горлышко? Неизвестно</span></div></div>
+  </div>
+</section>
+
+<!-- DEMO CHAT -->
+<div id="demo">
+  <div class="section-label reveal">Как работает</div>
+  <h2 class="reveal">Из хаоса — в систему. За секунды.</h2>
+  <p class="section-sub reveal">Клиент пишет в групповой чат. Система автоматически извлекает сделку и передаёт оператору — без шума.</p>
+
+  <div class="demo-grid">
+    <div class="demo-panel">
+      <div class="panel-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><span class="panel-title">Telegram — Рабочая группа OTC</span></div>
+      <div class="tg-chat" id="tg-chat"></div>
+    </div>
+    <div class="demo-panel">
+      <div class="panel-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><span class="panel-title">CRM — что видит оператор</span></div>
+      <div class="crm-panel-body">
+        <div class="crm-new" id="c-new">Новая сделка</div>
+        <div class="crm-deal-name" id="c-title">OTC-обмен #2841</div>
+        <div class="crm-row" id="c1" style="transition-delay:2.0s"><span class="crm-k">Клиент</span><span class="crm-v">Александр (@alex_tg)</span></div>
+        <div class="crm-row" id="c2" style="transition-delay:2.2s"><span class="crm-k">Сумма</span><span class="crm-v hi">50 000 USDT</span></div>
+        <div class="crm-row" id="c3" style="transition-delay:2.4s"><span class="crm-k">Курс</span><span class="crm-v">92.5 RUB/USDT</span></div>
+        <div class="crm-row" id="c4" style="transition-delay:2.6s"><span class="crm-k">Источник</span><span class="crm-v">TG группа</span></div>
+        <div class="crm-row" id="c5" style="transition-delay:2.8s"><span class="crm-k">Оператор</span><span class="crm-v hi2">Менеджер Дима ↗</span></div>
+        <hr class="crm-sep" id="c-sep" style="transition-delay:3.0s">
+        <div class="crm-skip" id="c-skip" style="transition-delay:3.1s">«Погода отличная» и шум — <strong>не показывается</strong></div>
+      </div>
+    </div>
+  </div>
+  <p class="demo-note">Анимация автоматическая <button onclick="resetDemo()">↺ Повторить</button></p>
+
+  <!-- MID CTA -->
+  <div style="text-align:center;margin-top:48px">
+    <a href="https://t.me/danil_alto" style="display:inline-flex;align-items:center;gap:10px;background:rgba(108,92,231,0.1);color:var(--accent2);text-decoration:none;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:600;border:1px solid rgba(108,92,231,0.28);transition:background .2s" onmouseover="this.style.background='rgba(108,92,231,0.18)'" onmouseout="this.style.background='rgba(108,92,231,0.1)'">
+      Хочу такое для своей команды — написать
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- METRIC -->
+<div id="metric" class="reveal">
+  <div class="metric-box">
+    <div class="metric-tag">Реальный кейс — SLA-роутинг операторов</div>
+    <div class="metric-nums">
+      <div class="m-block"><div class="m-num" style="color:var(--red)" id="mb">4</div><div class="m-unit">мин</div></div>
+      <div class="m-arrow">→</div>
+      <div class="m-block"><div class="m-num" style="color:var(--green)" id="ma">40</div><div class="m-unit">сек</div></div>
+    </div>
+    <p class="m-desc">Среднее время ответа оператора клиенту после перехода в изолированный контур с умной очередью заявок.</p>
+  </div>
+</div>
+
+<!-- CRM INTERFACE MOCKUP -->
+<div id="crm-mockup">
+  <div class="section-label reveal">Кейс — реальная система</div>
+  <h2 class="reveal">В продакшене у медицинской сети</h2>
+  <p class="section-sub reveal">Клиники принимали заявки через Instagram и мессенджеры. AI-ассистент обрабатывает первичный запрос, передаёт администратору только квалифицированные заявки.</p>
+
+  <!-- KANBAN MOCKUP -->
+  <div class="mockup-shell reveal">
+    <div class="mockup-titlebar">
+      <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      <span>CRM Space — Engagement Board · Leads</span>
+    </div>
+    <div class="mockup-body">
+      <div class="m-sidebar">
+        <div class="m-nav-item"><span class="m-nav-icon">🏠</span> Home</div>
+        <div class="m-nav-item"><span class="m-nav-icon">💬</span> Chats</div>
+        <div class="m-nav-item"><span class="m-nav-icon">📚</span> Knowledge Base</div>
+        <div class="m-nav-item"><span class="m-nav-icon">⚙️</span> AI Settings</div>
+        <div class="m-nav-item active"><span class="m-nav-icon">📊</span> CRM Space</div>
+      </div>
+      <div class="m-main">
+        <div class="m-tabs">
+          <div class="m-tab active">Leads</div>
+          <div class="m-tab">Deals</div>
+          <div class="m-tab">Patients</div>
+        </div>
+        <div class="stat-tiles">
+          <div class="stat-tile"><div class="st-num" style="color:var(--text)">1 122</div><div class="st-label">All leads</div></div>
+          <div class="stat-tile"><div class="st-num st-purple">1 022</div><div class="st-label">Bot Active / New Inquiry</div></div>
+          <div class="stat-tile"><div class="st-num st-green">23</div><div class="st-label">Converted to Deal</div></div>
+          <div class="stat-tile"><div class="st-num st-yellow">26</div><div class="st-label">Call Later</div></div>
+        </div>
+        <div class="kanban">
+          <div class="kb-col">
+            <div class="kb-col-head">Bot Active <span class="kb-count">1022</span></div>
+            <div class="kb-card">
+              <div class="kb-name">@yaninazusko</div>
+              <div class="kb-badges"><span class="badge b-tg">TG Mini-App</span><span class="badge b-bot">Bot Active</span></div>
+              <div class="kb-time">8 часов назад</div>
+            </div>
+            <div class="kb-card">
+              <div class="kb-name">INTERNAL_27C0</div>
+              <div class="kb-badges"><span class="badge b-int">Internal</span><span class="badge b-bot">Bot Active</span></div>
+              <div class="kb-time">10 часов назад</div>
+            </div>
+          </div>
+          <div class="kb-col">
+            <div class="kb-col-head">In Progress <span class="kb-count">24</span></div>
+            <div class="kb-card">
+              <div class="kb-name">Ivan Rudnitski</div>
+              <div class="kb-badges"><span class="badge b-ig">Instagram</span><span class="badge b-fail">No Show</span></div>
+              <div class="kb-time">Вчера</div>
+            </div>
+            <div class="kb-card">
+              <div class="kb-name">Maria K.</div>
+              <div class="kb-badges"><span class="badge b-ig">Instagram</span><span class="badge b-wait">Waiting</span></div>
+              <div class="kb-time">3 часа назад</div>
+            </div>
+          </div>
+          <div class="kb-col">
+            <div class="kb-col-head">Waiting List <span class="kb-count">7</span></div>
+            <div class="kb-card">
+              <div class="kb-name">Andrei V.</div>
+              <div class="kb-badges"><span class="badge b-ig">Instagram</span><span class="badge b-wait">Call Later</span></div>
+              <div class="kb-time">2 часа назад</div>
+            </div>
+          </div>
+          <div class="kb-col">
+            <div class="kb-col-head">Converted <span class="kb-count">23</span></div>
+            <div class="kb-card">
+              <div class="kb-name">Novik Lidziya</div>
+              <div class="kb-badges"><span class="badge b-ig">Instagram</span><span class="badge b-conv">Converted ✓</span></div>
+              <div class="kb-time">Вчера</div>
+            </div>
+            <div class="kb-card">
+              <div class="kb-name">Natallia P.</div>
+              <div class="kb-badges"><span class="badge b-ig">Instagram</span><span class="badge b-conv">Appt Scheduled</span></div>
+              <div class="kb-time">8 часов назад</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT MOCKUP -->
+  <div class="chat-mockup reveal" style="margin-top:24px">
+    <div class="chat-shell">
+      <div class="mockup-titlebar">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+        <span>Chats — AI Assistant в действии</span>
+      </div>
+      <div class="chat-layout">
+        <div class="chat-list">
+          <div class="chat-list-head">Chat Sessions</div>
+          <div class="search-bar">🔍 <span>Поиск чатов...</span></div>
+          <div class="chat-list-item active">
+            <div class="cli-ava ig">y</div>
+            <div class="cli-meta">
+              <div class="cli-name">yaninazusko</div>
+              <div class="cli-preview">Уже зову на помощь адм...</div>
+            </div>
+            <div class="cli-time">00:57</div>
+          </div>
+          <div class="chat-list-item">
+            <div class="cli-ava">Pi</div>
+            <div class="cli-meta">
+              <div class="cli-name">Pi... (Instagram)</div>
+              <div class="cli-preview">Да, я работаю и отвечаю...</div>
+            </div>
+            <div class="cli-time">02:35</div>
+          </div>
+          <div class="chat-list-item">
+            <div class="cli-ava ig" style="font-size:10px">1...</div>
+            <div class="cli-meta">
+              <div class="cli-name">Instagram_126...</div>
+              <div class="cli-preview">&lt;Content&gt;</div>
+            </div>
+            <div class="cli-time">23:59</div>
+          </div>
+        </div>
+        <div class="chat-view">
+          <div class="chat-view-head">
+            <div class="chat-user-info">
+              <div class="chat-user-name">User: yaninazusko</div>
+              <div class="chat-user-meta">Created: 05.02.2026, 00:55 · 1 день назад</div>
+            </div>
+            <div class="chat-source">Telegram Mini-App</div>
+          </div>
+          <div class="chat-messages">
+            <div class="chat-ai-msg">
+              <div class="ai-ava">🤖</div>
+              <div class="ai-bubble">
+                <div class="ai-label">AI ASSISTANT</div>
+                Добрый день! Я Медина, AI-помощник PaNa Medica. Помогу с общими вопросами. Если захотите пригласить администратора — я его позову. Если острая боль — позвоните: <strong>+48 511 111 595</strong>
+              </div>
+            </div>
+            <div class="chat-client-msg">
+              <div class="client-ava">У</div>
+              <div class="client-bubble">Какова стоимость восстановления зуба штифтом и накрытие коронкой?</div>
+            </div>
+            <div class="chat-ai-msg">
+              <div class="ai-ava">🤖</div>
+              <div class="ai-bubble">
+                <div class="ai-label">AI ASSISTANT</div>
+                Уже зову на помощь администратора. Он подключится, как только сможет. Спасибо за ваше терпение! 🌹
+              </div>
+            </div>
+          </div>
+          <div class="chat-input">
+            <div class="chat-input-bar">
+              <span>Type your message...</span>
+              <button class="send-btn">→ Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NICHES -->
+<section class="reveal">
+  <div class="section-label">Для кого</div>
+  <h2>Работает в разных нишах</h2>
+  <p class="section-sub">Везде где команда работает в мессенджерах и теряет заявки в шуме.</p>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px" id="niches-grid">
+    <div class="feat-card" style="padding:20px;text-align:center">
+      <div style="font-size:28px;margin-bottom:10px">💱</div>
+      <div style="font-weight:700;font-size:14px;margin-bottom:6px">Финтех и обменники</div>
+      <div style="font-size:12px;color:var(--muted)">OTC-деск, P2P, крипто-сервисы — изолированный контур для операторов</div>
+    </div>
+    <div class="feat-card" style="padding:20px;text-align:center">
+      <div style="font-size:28px;margin-bottom:10px">🏥</div>
+      <div style="font-weight:700;font-size:14px;margin-bottom:6px">Медицина и клиники</div>
+      <div style="font-size:12px;color:var(--muted)">Запись, напоминания, повторные визиты — AI первой линии работает 24/7</div>
+    </div>
+    <div class="feat-card" style="padding:20px;text-align:center">
+      <div style="font-size:28px;margin-bottom:10px">👥</div>
+      <div style="font-weight:700;font-size:14px;margin-bottom:6px">HR и рекрутинг</div>
+      <div style="font-size:12px;color:var(--muted)">Скрининг кандидатов, онбординг, база знаний — бот закрывает 70% потока</div>
+    </div>
+    <div class="feat-card" style="padding:20px;text-align:center">
+      <div style="font-size:28px;margin-bottom:10px">🛍</div>
+      <div style="font-weight:700;font-size:14px;margin-bottom:6px">E-commerce и ритейл</div>
+      <div style="font-size:12px;color:var(--muted)">Заявки из нескольких каналов, распределение по менеджерам, воронка продаж</div>
+    </div>
+    <div class="feat-card" style="padding:20px;text-align:center">
+      <div style="font-size:28px;margin-bottom:10px">🏗</div>
+      <div style="font-weight:700;font-size:14px;margin-bottom:6px">Строительство и сервисы</div>
+      <div style="font-size:12px;color:var(--muted)">Заявки из мессенджеров — в единое окно с автоматическим распределением</div>
+    </div>
+    <div class="feat-card" style="padding:20px;text-align:center">
+      <div style="font-size:28px;margin-bottom:10px">🎓</div>
+      <div style="font-weight:700;font-size:14px;margin-bottom:6px">EdTech и обучение</div>
+      <div style="font-size:12px;color:var(--muted)">Лиды из соцсетей и ботов — в CRM с прогрессом по воронке</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="reveal">
+  <div class="section-label">Платформа</div>
+  <h2>Что внутри</h2>
+  <p class="section-sub">Четыре принципа которые делают систему безопасной и управляемой.</p>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">🔒</div><h3>Изолированный контур</h3><p>Операторы работают через CRM-интерфейс. Прямого доступа к паролям и сессиям Telegram-аккаунтов нет. Уволился — доступ закрыт мгновенно.</p></div>
+    <div class="feat-card"><div class="feat-icon">👤</div><h3>User API — не бот</h3><p>Клиент видит живой профиль человека. Полная поддержка функционала Telegram: редактирование, голосовые, реакции. Бесшовно.</p></div>
+    <div class="feat-card"><div class="feat-icon">🗂</div><h3>Единое окно</h3><p>Все заявки из Telegram, WhatsApp, Instagram — в одной ленте с умной очередью. Ничего не теряется, ничего не дублируется.</p></div>
+    <div class="feat-card"><div class="feat-icon">📈</div><h3>Полный контроль</h3><p>Лог каждого действия менеджера. Аналитика эффективности. KPI по операторам в реальном времени. Привязка диалогов к сделкам.</p></div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="reveal">
+  <div class="section-label">Как начать</div>
+  <h2>Три шага до запуска</h2>
+  <div class="steps">
+    <div class="step"><div class="step-n">1</div><div class="step-c"><h3>Разбираем ваш процесс</h3><p>Как идёт сделка от первого сообщения до закрытия. Собираем критерии, триггеры, роли. 20–40 минут.</p></div></div>
+    <div class="step"><div class="step-n">2</div><div class="step-c"><h3>Собираем план и показываем демо</h3><p>Конкретные сроки и стоимость. Демо на ваших данных — чтобы увидеть до старта разработки.</p></div></div>
+    <div class="step"><div class="step-n">3</div><div class="step-c"><h3>Разрабатываем и запускаем</h3><p>В продакшен. С поддержкой на каждом этапе.</p></div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div id="cta">
+  <div class="cta-box reveal">
+    <div class="section-label" style="text-align:center;margin-bottom:14px">Следующий шаг</div>
+    <h2>Покажи как устроено сейчас<br>— разберём за 20 минут</h2>
+    <div class="share-block" style="margin-top:0;padding-top:0;border-top:none;margin-bottom:36px">
+      <p>Знаешь кого-то с такой же болью?</p>
+      <div class="share-text" id="share-text">Смотри, нашёл ребят которые делают CRM для команд в мессенджерах. Реальная система в продакшене — Telegram User API, единое окно, аналитика операторов. Время ответа с 4 минут до 40 секунд. Может быть актуально: https://practical-ai.pro/crm</div>
+      <button class="copy-btn" onclick="copyShare(this)">Скопировать текст</button>
+    </div>
+    <a href="https://t.me/danil_alto" class="cta-btn">
+      Написать Данилу в Telegram
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </a>
+    <p class="cta-meta">@danil_alto · Работаем удалённо · Отвечаю в течение дня</p>
+  </div>
+</div>
+
+<footer>Practical AI · @danil_alto · usik.d.o@gmail.com</footer>
+
+<script>
+// PROGRESS
+window.addEventListener('scroll', () => {
+  const d = document.documentElement;
+  document.getElementById('progress-bar').style.width = (d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';
+});
+
+// REVEAL
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }});
+}, {threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// PAIN LIST
+const painObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.pain-item').forEach((it,i) => setTimeout(()=>it.classList.add('show'),i*130));
+      painObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.1});
+const pl = document.getElementById('painlist');
+if(pl) painObs.observe(pl);
+
+// Niches grid mobile
+if(window.innerWidth < 600){
+  const g = document.getElementById('niches-grid');
+  if(g) g.style.gridTemplateColumns = 'repeat(2,1fr)';
+}
+
+// DEMO ANIMATION
+const tgMsgs = [
+  {init:'К1',color:'#6a6a99',bg:'rgba(106,106,153,0.1)',name:'Коллега 1',text:'Кто на связи?',cls:'tg-noise'},
+  {init:'К2',color:'#6a6a99',bg:'rgba(106,106,153,0.1)',name:'Коллега 2',text:'Я тут, разбираемся с EUR',cls:'tg-noise'},
+  {init:'АЛ',color:'#5244c4',bg:'rgba(108,92,231,0.12)',name:'Александр',text:'@Менеджер нужен обмен 50K USDT',cls:'tg-trigger',trigger:true},
+  {init:'К1',color:'#6a6a99',bg:'rgba(106,106,153,0.1)',name:'Коллега 1',text:'Нужно выдать 20к EUR в Монако',cls:'tg-noise'},
+  {init:'МН',color:'#0aaa6a',bg:'rgba(10,170,106,0.12)',name:'Менеджер',text:'Александр, курс 92.5 — устроит?',cls:''},
+  {init:'АЛ',color:'#5244c4',bg:'rgba(108,92,231,0.12)',name:'Александр',text:'Да, давай 👍',cls:''}
+];
+
+let demoRunning=false;
+function runDemo(){
+  if(demoRunning) return;
+  demoRunning=true;
+  const body=document.getElementById('tg-chat');
+  body.innerHTML='';
+  ['c-new','c-title','c-sep','c-skip'].forEach(id=>{ const el=document.getElementById(id); if(el) el.classList.remove('show'); });
+  ['c1','c2','c3','c4','c5'].forEach(id=>{ const el=document.getElementById(id); if(el) el.classList.remove('show'); });
+
+  tgMsgs.forEach((m,i)=>{
+    setTimeout(()=>{
+      const div=document.createElement('div');
+      div.className='tg-msg';
+      div.innerHTML=`<div class="tg-ava" style="background:${m.bg};color:${m.color}">${m.init}</div><div class="tg-bubble" style="background:${m.bg}"><div class="tg-name" style="color:${m.color}">${m.name}</div><div class="${m.cls}">${m.text}</div></div>`;
+      body.appendChild(div);
+      setTimeout(()=>div.classList.add('show'),40);
+      if(m.trigger){
+        setTimeout(()=>{
+          document.getElementById('c-new').classList.add('show');
+          document.getElementById('c-title').classList.add('show');
+          ['c1','c2','c3','c4','c5'].forEach((id,fi)=>setTimeout(()=>{ const el=document.getElementById(id); if(el) el.classList.add('show'); },fi*180));
+          setTimeout(()=>{ document.getElementById('c-sep').classList.add('show'); document.getElementById('c-skip').classList.add('show'); },940);
+        },450);
+      }
+    },i*900);
+  });
+  setTimeout(()=>{ demoRunning=false; },tgMsgs.length*900+800);
+}
+function resetDemo(){ demoRunning=false; runDemo(); }
+
+const demoObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting&&!demoRunning){ runDemo(); demoObs.unobserve(e.target); }});
+},{threshold:0.25});
+const de=document.getElementById('demo');
+if(de) demoObs.observe(de);
+
+// COPY
+function copyShare(btn){
+  navigator.clipboard.writeText(document.getElementById('share-text').textContent.trim()).then(()=>{
+    btn.textContent='✓ Скопировано'; btn.classList.add('done');
+    setTimeout(()=>{ btn.textContent='Скопировать текст'; btn.classList.remove('done'); },2500);
+  });
+}
+</script>
+</body>
+</html>

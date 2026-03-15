@@ -27,3 +27,6 @@ RewriteRule ^en/$ index.html [NC]
 RewriteRule ^test$ page68021483.html [NC]
 RewriteRule ^test/$ page68021483.html [NC]
 
+RewriteRule ^crm$ index_crm.html [NC]
+RewriteRule ^crm/$ index_crm.html [NC]
+
