@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-ассистент — ROI Калькулятор</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --primary-dark: #4f46e5;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --surface: #ffffff;
+      --surface-2: #f8fafc;
+      --surface-3: #f1f5f9;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-2: #475569;
+      --text-3: #94a3b8;
+      --gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      --radius: 14px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--surface-2);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ─── Header ─── */
+    .header {
+      background: var(--gradient);
+      padding: 48px 24px 72px;
+      text-align: center;
+      color: #fff;
+    }
+    .header h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; }
+    .header p  { margin-top: 8px; opacity: 0.82; font-size: 1rem; }
+
+    /* ─── Layout ─── */
+    .container {
+      max-width: 1100px;
+      margin: -40px auto 60px;
+      padding: 0 20px;
+    }
+
+    /* ─── Card ─── */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07), 0 6px 20px rgba(0,0,0,.05);
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+    .card-title .step {
+      width: 28px; height: 28px;
+      background: var(--gradient);
+      border-radius: 50%;
+      color: #fff;
+      font-size: .75rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ─── Channel toggles ─── */
+    .channels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .ch-toggle {
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .18s ease;
+      user-select: none;
+      background: var(--surface-2);
+    }
+    .ch-toggle:hover { border-color: var(--primary-light); transform: translateY(-1px); }
+    .ch-toggle.active {
+      border-color: var(--primary);
+      background: #eef2ff;
+      box-shadow: 0 0 0 3px rgba(99,102,241,.12);
+    }
+    .ch-toggle .ch-icon { font-size: 1.7rem; display: block; margin-bottom: 5px; }
+    .ch-toggle .ch-name { font-size: .78rem; font-weight: 600; color: var(--text-2); }
+    .ch-toggle.active .ch-name { color: var(--primary); }
+
+    /* ─── Channel config rows ─── */
+    .ch-configs { display: flex; flex-direction: column; gap: 14px; }
+
+    .ch-row {
+      display: grid;
+      grid-template-columns: 150px 1fr 1fr;
+      gap: 16px;
+      align-items: center;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      transition: border-color .15s;
+    }
+    .ch-row:hover { border-color: var(--primary-light); }
+
+    .ch-label {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 600; font-size: .9rem;
+    }
+    .ch-label .icon { font-size: 1.35rem; }
+
+    /* ─── Inputs ─── */
+    .input-group { display: flex; flex-direction: column; gap: 5px; }
+    .input-group label {
+      font-size: .72rem;
+      font-weight: 600;
+      color: var(--text-2);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .input-wrap { position: relative; display: flex; align-items: center; }
+    .input-wrap input {
+      width: 100%;
+      padding: 10px 40px 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: .92rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color .18s;
+      background: var(--surface-2);
+    }
+    .input-wrap input:focus { border-color: var(--primary); background: #fff; }
+    .input-suffix {
+      position: absolute; right: 12px;
+      color: var(--text-3); font-size: .82rem;
+      pointer-events: none;
+    }
+
+    /* ─── Global params grid ─── */
+    .params-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 22px;
+    }
+
+    /* ─── Sliders ─── */
+    .slider-wrap { display: flex; flex-direction: column; gap: 6px; }
+    .slider-header { display: flex; justify-content: space-between; align-items: baseline; }
+    .slider-val { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
+    input[type=range] {
+      width: 100%; accent-color: var(--primary); cursor: pointer;
+    }
+
+    /* ─── Results ─── */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .metric {
+      background: var(--surface-2);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .metric .m-label {
+      font-size: .7rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .05em;
+      color: var(--text-2);
+    }
+    .metric .m-val {
+      font-size: 1.55rem; font-weight: 800; line-height: 1.1;
+    }
+    .metric .m-sub { font-size: .75rem; color: var(--text-3); }
+    .c-primary { color: var(--primary); }
+    .c-success { color: var(--success); }
+    .c-warn    { color: var(--warning); }
+
+    /* ─── Charts ─── */
+    .charts-row {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+    .chart-box {
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 22px;
+    }
+    .chart-box h4 {
+      font-size: .8rem; font-weight: 600;
+      color: var(--text-2); margin-bottom: 14px;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+
+    /* ─── Unit economics table ─── */
+    .section-label {
+      font-size: .8rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .05em;
+      color: var(--text-2); margin-bottom: 14px;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      text-align: left;
+      padding: 10px 14px;
+      font-size: .72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .05em;
+      color: var(--text-2);
+      background: var(--surface-3);
+    }
+    thead th:first-child { border-radius: 8px 0 0 8px; }
+    thead th:last-child  { border-radius: 0 8px 8px 0; }
+    tbody td {
+      padding: 12px 14px;
+      border-top: 1px solid var(--border);
+      font-size: .88rem;
+    }
+    tbody tr:hover td { background: var(--surface-2); }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: .72rem; font-weight: 700;
+    }
+    .badge-g { background: #d1fae5; color: #065f46; }
+    .badge-y { background: #fef3c7; color: #92400e; }
+    .badge-n { background: #e0e7ff; color: #3730a3; }
+
+    /* ─── Empty state ─── */
+    .empty {
+      text-align: center; padding: 32px;
+      color: var(--text-3); font-size: .9rem;
+    }
+
+    /* ─── Divider ─── */
+    .divider { border: none; border-top: 1.5px solid var(--border); margin: 24px 0; }
+
+    @media (max-width: 700px) {
+      .ch-row    { grid-template-columns: 1fr; }
+      .charts-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🤖 AI-ассистент — ROI Калькулятор</h1>
+  <p>Рассчитайте окупаемость внедрения AI для вашего бизнеса</p>
+</div>
+
+<div class="container">
+
+  <!-- ① Каналы -->
+  <div class="card">
+    <div class="card-title">
+      <div class="step">1</div>
+      Выберите каналы коммуникации
+    </div>
+    <div class="channels-grid" id="channelsGrid"></div>
+    <div class="ch-configs" id="chConfigs">
+      <div class="empty">Выберите хотя бы один канал выше</div>
+    </div>
+  </div>
+
+  <!-- ② Параметры бота -->
+  <div class="card">
+    <div class="card-title">
+      <div class="step">2</div>
+      Параметры AI-ассистента
+    </div>
+    <div class="params-grid">
+      <div class="input-group">
+        <label>Стоимость разработки</label>
+        <div class="input-wrap">
+          <input type="number" id="devCost" value="200000" min="0" />
+          <span class="input-suffix">₽</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Обслуживание бота / мес</label>
+        <div class="input-wrap">
+          <input type="number" id="botCost" value="15000" min="0" />
+          <span class="input-suffix">₽</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Уровень автоматизации</label>
+        <div class="slider-wrap">
+          <div class="slider-header">
+            <span style="font-size:.8rem;color:var(--text-2)">AI берёт на себя</span>
+            <span class="slider-val" id="autoLabel">80%</span>
+          </div>
+          <input type="range" id="autoRate" min="20" max="95" value="80" />
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Горизонт анализа</label>
+        <div class="slider-wrap">
+          <div class="slider-header">
+            <span style="font-size:.8rem;color:var(--text-2)">Месяцев</span>
+            <span class="slider-val" id="periodLabel">12</span>
+          </div>
+          <input type="range" id="period" min="1" max="36" value="12" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ Результаты -->
+  <div class="card" id="resultsCard">
+    <div class="card-title">
+      <div class="step">✓</div>
+      Результаты расчёта
+    </div>
+
+    <div class="metrics-grid" id="metricsGrid">
+      <div class="empty">Выберите каналы и заполните параметры</div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-box">
+        <h4>Накопленная экономия по месяцам</h4>
+        <canvas id="cumulChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h4>Сообщения по каналам</h4>
+        <canvas id="pieChart"></canvas>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="section-label">Юнит-экономика</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Метрика</th>
+          <th>До AI</th>
+          <th>После AI</th>
+          <th>Изменение</th>
+        </tr>
+      </thead>
+      <tbody id="unitBody">
+        <tr><td colspan="4" class="empty">Нет данных</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+/* ───────────────────────────────────────────────
+   CHANNEL DEFINITIONS
+─────────────────────────────────────────────── */
+const CHANNELS = [
+  { id:'telegram',  label:'Telegram',  icon:'✈️', defMsg:150, defCost:45000 },
+  { id:'instagram', label:'Instagram', icon:'📸', defMsg:80,  defCost:40000 },
+  { id:'facebook',  label:'Facebook',  icon:'📘', defMsg:60,  defCost:38000 },
+  { id:'vidjet',    label:'Vidjet',    icon:'💬', defMsg:40,  defCost:35000 },
+  { id:'whatsapp',  label:'WhatsApp',  icon:'📱', defMsg:200, defCost:50000 },
+  { id:'jivochat',  label:'JivoChat',  icon:'🗨️', defMsg:120, defCost:42000 },
+  { id:'vk',        label:'VK',        icon:'🌐', defMsg:90,  defCost:38000 },
+  { id:'avito',     label:'Avito',     icon:'🏷️', defMsg:70,  defCost:36000 },
+];
+
+const PALETTE = [
+  '#6366f1','#8b5cf6','#06b6d4','#10b981',
+  '#f59e0b','#ef4444','#ec4899','#14b8a6'
+];
+
+/* ───────────────────────────────────────────────
+   STATE
+─────────────────────────────────────────────── */
+const state = {
+  selected: new Set(['telegram','whatsapp']),
+  ch: {},          // { id: { messagesPerDay, operatorCost } }
+  devCost:    200000,
+  botCost:    15000,
+  autoRate:   80,
+  period:     12,
+};
+
+CHANNELS.forEach(c => {
+  state.ch[c.id] = { messagesPerDay: c.defMsg, operatorCost: c.defCost };
+});
+
+let cumulChartObj = null, pieChartObj = null;
+
+/* ───────────────────────────────────────────────
+   RENDER — TOGGLES
+─────────────────────────────────────────────── */
+function renderToggles() {
+  document.getElementById('channelsGrid').innerHTML = CHANNELS.map(c => `
+    <div class="ch-toggle ${state.selected.has(c.id)?'active':''}"
+         onclick="toggleCh('${c.id}')">
+      <span class="ch-icon">${c.icon}</span>
+      <span class="ch-name">${c.label}</span>
+    </div>`).join('');
+}
+
+/* ───────────────────────────────────────────────
+   RENDER — CONFIG ROWS
+─────────────────────────────────────────────── */
+function renderConfigs() {
+  const active = CHANNELS.filter(c => state.selected.has(c.id));
+  const wrap = document.getElementById('chConfigs');
+  if (!active.length) {
+    wrap.innerHTML = '<div class="empty">Выберите хотя бы один канал выше</div>';
+    return;
+  }
+  wrap.innerHTML = active.map(c => {
+    const d = state.ch[c.id];
+    return `
+    <div class="ch-row">
+      <div class="ch-label">
+        <span class="icon">${c.icon}</span>
+        <span>${c.label}</span>
+      </div>
+      <div class="input-group">
+        <label>Сообщений в день</label>
+        <div class="input-wrap">
+          <input type="number" value="${d.messagesPerDay}" min="1"
+            oninput="setCh('${c.id}','messagesPerDay',this.value)">
+          <span class="input-suffix">шт</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Затраты на операторов / мес</label>
+        <div class="input-wrap">
+          <input type="number" value="${d.operatorCost}" min="0"
+            oninput="setCh('${c.id}','operatorCost',this.value)">
+          <span class="input-suffix">₽</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ───────────────────────────────────────────────
+   ACTIONS
+─────────────────────────────────────────────── */
+function toggleCh(id) {
+  state.selected.has(id) ? state.selected.delete(id) : state.selected.add(id);
+  renderToggles();
+  renderConfigs();
+  recalc();
+}
+
+function setCh(id, field, val) {
+  state.ch[id][field] = parseFloat(val) || 0;
+  recalc();
+}
+
+/* ───────────────────────────────────────────────
+   CALCULATIONS
+─────────────────────────────────────────────── */
+function recalc() {
+  const active = CHANNELS.filter(c => state.selected.has(c.id));
+  if (!active.length) {
+    document.getElementById('metricsGrid').innerHTML =
+      '<div class="empty">Выберите каналы для расчёта</div>';
+    document.getElementById('unitBody').innerHTML =
+      '<tr><td colspan="4" class="empty">Нет данных</td></tr>';
+    return;
+  }
+
+  const DAYS = 30;
+
+  // Aggregates
+  let totalMsgDay  = 0;
+  let totalOpCost  = 0;
+  active.forEach(c => {
+    totalMsgDay += state.ch[c.id].messagesPerDay;
+    totalOpCost += state.ch[c.id].operatorCost;
+  });
+
+  const totalMsgMonth   = totalMsgDay * DAYS;
+  const aiMsg           = totalMsgMonth * (state.autoRate / 100);
+  const opMsg           = totalMsgMonth - aiMsg;
+
+  // Economics
+  const costPerMsgBefore = totalOpCost / totalMsgMonth;
+  const grossSavings     = aiMsg * costPerMsgBefore;          // = totalOpCost * autoRate%
+  const netMonthly       = grossSavings - state.botCost;      // monthly net
+  const opCostAfter      = totalOpCost * (1 - state.autoRate / 100);
+  const totalCostAfter   = opCostAfter + state.botCost;
+  const costPerMsgAfter  = totalCostAfter / totalMsgMonth;
+
+  // Payback
+  const payback = netMonthly > 0
+    ? state.devCost / netMonthly
+    : Infinity;
+
+  // Cumulative over period (months)
+  const months     = Array.from({ length: state.period }, (_, i) => i + 1);
+  const cumulative = months.map(m => netMonthly * m - state.devCost);
+  const balance    = cumulative[state.period - 1];
+
+  // ROI on total investment
+  const totalInvest = state.devCost + state.botCost * state.period;
+  const totalReturn = grossSavings * state.period;
+  const roi = ((totalReturn - totalInvest) / totalInvest) * 100;
+
+  // Annual saving
+  const annualNet = netMonthly * 12;
+
+  /* ─ Metrics cards ─ */
+  const roiClass = roi >= 0 ? 'c-success' : 'c-warn';
+  document.getElementById('metricsGrid').innerHTML = `
+    <div class="metric">
+      <div class="m-label">Сообщений / месяц</div>
+      <div class="m-val c-primary">${fmt(totalMsgMonth)}</div>
+      <div class="m-sub">AI обработает: ${fmt(aiMsg)}</div>
+    </div>
+    <div class="metric">
+      <div class="m-label">Валовая экономия / мес</div>
+      <div class="m-val c-success">${fmtR(grossSavings)}</div>
+      <div class="m-sub">снижение нагрузки операторов</div>
+    </div>
+    <div class="metric">
+      <div class="m-label">Чистая экономия / мес</div>
+      <div class="m-val ${netMonthly >= 0 ? 'c-success' : 'c-warn'}">${fmtR(netMonthly)}</div>
+      <div class="m-sub">после вычета обслуживания бота</div>
+    </div>
+    <div class="metric">
+      <div class="m-label">Срок окупаемости</div>
+      <div class="m-val ${payback < 12 ? 'c-success' : 'c-primary'}">
+        ${isFinite(payback) ? payback.toFixed(1) + ' мес' : '∞'}
+      </div>
+      <div class="m-sub">при инвестиции ${fmtR(state.devCost)}</div>
+    </div>
+    <div class="metric">
+      <div class="m-label">ROI за ${state.period} мес</div>
+      <div class="m-val ${roiClass}">${roi.toFixed(0)}%</div>
+      <div class="m-sub">баланс: ${fmtR(balance)}</div>
+    </div>
+    <div class="metric">
+      <div class="m-label">Стоимость 1 сообщения</div>
+      <div class="m-val c-primary">${costPerMsgBefore.toFixed(2)} ₽</div>
+      <div class="m-sub">после AI: ${costPerMsgAfter.toFixed(2)} ₽</div>
+    </div>
+  `;
+
+  /* ─ Unit economics table ─ */
+  const msgDrop = (1 - costPerMsgAfter / costPerMsgBefore) * 100;
+  const opDrop  = state.autoRate;
+  document.getElementById('unitBody').innerHTML = `
+    <tr>
+      <td>Сообщений в месяц</td>
+      <td>${fmt(totalMsgMonth)}</td>
+      <td>${fmt(totalMsgMonth)}</td>
+      <td><span class="badge badge-n">→ без изменений</span></td>
+    </tr>
+    <tr>
+      <td>Обрабатывает оператор</td>
+      <td>${fmt(totalMsgMonth)} (100%)</td>
+      <td>${fmt(opMsg)} (${100 - state.autoRate}%)</td>
+      <td><span class="badge badge-g">↓ −${opDrop}% нагрузки</span></td>
+    </tr>
+    <tr>
+      <td>Обрабатывает AI</td>
+      <td>—</td>
+      <td>${fmt(aiMsg)} (${state.autoRate}%)</td>
+      <td><span class="badge badge-g">↑ новая возможность</span></td>
+    </tr>
+    <tr>
+      <td>Затраты на операторов / мес</td>
+      <td>${fmtR(totalOpCost)}</td>
+      <td>${fmtR(opCostAfter)}</td>
+      <td><span class="badge badge-g">↓ −${fmtR(totalOpCost - opCostAfter)}</span></td>
+    </tr>
+    <tr>
+      <td>Обслуживание AI / мес</td>
+      <td>—</td>
+      <td>${fmtR(state.botCost)}</td>
+      <td><span class="badge badge-n">новая статья</span></td>
+    </tr>
+    <tr>
+      <td>Итого затраты / мес</td>
+      <td>${fmtR(totalOpCost)}</td>
+      <td>${fmtR(totalCostAfter)}</td>
+      <td><span class="badge badge-g">↓ −${fmtR(totalOpCost - totalCostAfter)}</span></td>
+    </tr>
+    <tr>
+      <td>Стоимость 1 сообщения</td>
+      <td>${costPerMsgBefore.toFixed(2)} ₽</td>
+      <td>${costPerMsgAfter.toFixed(2)} ₽</td>
+      <td><span class="badge badge-g">↓ −${msgDrop.toFixed(0)}%</span></td>
+    </tr>
+    <tr>
+      <td><strong>Годовая чистая экономия</strong></td>
+      <td>—</td>
+      <td><strong>${fmtR(annualNet)}</strong></td>
+      <td><span class="badge ${annualNet >= 0 ? 'badge-g' : 'badge-y'}">${annualNet >= 0 ? '✓ выгодно' : '⚠ убыток'}</span></td>
+    </tr>
+  `;
+
+  /* ─ Charts ─ */
+  renderCumul(months, cumulative);
+  renderPie(active);
+}
+
+/* ───────────────────────────────────────────────
+   CHARTS
+─────────────────────────────────────────────── */
+function renderCumul(months, cumulative) {
+  const ctx = document.getElementById('cumulChart').getContext('2d');
+  if (cumulChartObj) cumulChartObj.destroy();
+
+  const breakeven = Array(months.length).fill(0);
+  const colors = cumulative.map(v => v >= 0 ? 'rgba(16,185,129,.85)' : 'rgba(239,68,68,.75)');
+
+  cumulChartObj = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: months.map(m => `М${m}`),
+      datasets: [
+        {
+          label: 'Баланс',
+          data: cumulative,
+          backgroundColor: colors,
+          borderRadius: 4,
+          order: 2,
+        },
+        {
+          label: 'Точка окупаемости',
+          data: breakeven,
+          type: 'line',
+          borderColor: '#6366f1',
+          borderWidth: 1.5,
+          borderDash: [6,3],
+          pointRadius: 0,
+          order: 1,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.dataset.label === 'Баланс'
+              ? ' ' + fmtR(ctx.raw)
+              : null
+          }
+        }
+      },
+      scales: {
+        y: {
+          ticks: { callback: v => fmtRShort(v) },
+          grid: { color: '#f1f5f9' }
+        },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+}
+
+function renderPie(active) {
+  const ctx = document.getElementById('pieChart').getContext('2d');
+  if (pieChartObj) pieChartObj.destroy();
+
+  pieChartObj = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: active.map(c => c.label),
+      datasets: [{
+        data: active.map(c => state.ch[c.id].messagesPerDay),
+        backgroundColor: PALETTE.slice(0, active.length),
+        borderWidth: 2,
+        borderColor: '#fff',
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10 } }
+      },
+      cutout: '62%',
+    }
+  });
+}
+
+/* ───────────────────────────────────────────────
+   FORMATTERS
+─────────────────────────────────────────────── */
+function fmt(n)  { return Math.round(n).toLocaleString('ru-RU'); }
+function fmtR(n) {
+  if (!isFinite(n)) return '∞';
+  return Math.round(n).toLocaleString('ru-RU') + ' ₽';
+}
+function fmtRShort(n) {
+  if (Math.abs(n) >= 1e6) return (n/1e6).toFixed(1) + 'M ₽';
+  if (Math.abs(n) >= 1e3) return (n/1e3).toFixed(0) + 'K ₽';
+  return n + ' ₽';
+}
+
+/* ───────────────────────────────────────────────
+   WIRE UP GLOBAL INPUTS
+─────────────────────────────────────────────── */
+document.getElementById('devCost').addEventListener('input', e => {
+  state.devCost = parseFloat(e.target.value) || 0; recalc();
+});
+document.getElementById('botCost').addEventListener('input', e => {
+  state.botCost = parseFloat(e.target.value) || 0; recalc();
+});
+document.getElementById('autoRate').addEventListener('input', e => {
+  state.autoRate = +e.target.value;
+  document.getElementById('autoLabel').textContent = state.autoRate + '%';
+  recalc();
+});
+document.getElementById('period').addEventListener('input', e => {
+  state.period = +e.target.value;
+  document.getElementById('periodLabel').textContent = state.period;
+  recalc();
+});
+
+/* ───────────────────────────────────────────────
+   INIT
+─────────────────────────────────────────────── */
+renderToggles();
+renderConfigs();
+recalc();
+</script>
+</body>
+</html>
