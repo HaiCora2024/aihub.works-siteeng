@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Автоматизация входящих звонков с помощью n8n — AIHUB.WORKS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/usecases.css" />
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a href="../../aihub/" class="logo" aria-label="AIHUB.WORKS">
+          <div class="logo-icon">AI</div>
+          <div class="logo-text">AIHUB<span>.WORKS</span></div>
+        </a>
+        <a href="https://t.me/Danil_alto" class="nav-cta" target="_blank" rel="noreferrer">
+          Написать в Telegram ↗
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <a class="backlink" href="../">← Все кейсы</a>
+      <div style="height:14px"></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Use Case 01 · voice ai</div>
+      <h1>Автоматизация входящих звонков с помощью n8n</h1>
+      <p class="sub">Голосовой ИИ-ассистент для сети лучевой диагностики</p>
+      <div class="meta-row">
+        <div class="meta">
+          <div class="meta-k">Срок</div>
+          <div class="meta-v">11 рабочих дней</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Технология</div>
+          <div class="meta-v">n8n workflow automation</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Метрика</div>
+          <div class="meta-v">—</div>
+        </div></div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <div class="label">Бизнес-задача</div>
+          <div class="p">Клиника лучевой диагностики теряла каждый третий звонок в часы пик, а содержание администраторов в ночные смены было экономически нецелесообразным. 80% обращений были типовыми: запись на КТ, уточнение цены, вопросы о подготовке.</div>
+        </div>
+        <div class="card">
+          <div class="label">Реализованное решение</div>
+          <div class="p">На базе n8n построен интеллектуальный голосовой помощник, объединяющий телефонию, NLP-обработку и CRM в единый автоматизированный поток.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Ключевые компоненты workflow</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">01</div>
+            <div class="step-title">Триггер входящего звонка</div>
+          </div>
+          <div class="step-desc">webhook от телефонного провайдера запускает n8n-процесс на первой секунде звонка.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">02</div>
+            <div class="step-title">Speech-to-Text модуль</div>
+          </div>
+          <div class="step-desc">преобразование речи пациента в текст с распознаванием медицинской терминологии (КЛКТ, контрастное усиление, низкодозная КТ).</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">03</div>
+            <div class="step-title">Интеллектуальная логика обработки</div>
+          </div>
+          <div class="step-desc">ветвление диалога в зависимости от запроса: квалификация зоны исследования, информирование о противопоказаниях, проверка требований к подготовке.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">04</div>
+            <div class="step-title">Интеграция с YCLIENTS API</div>
+          </div>
+          <div class="step-desc">в реальном времени проверяется расписание, идентифицируются постоянные клиенты по номеру телефона, создаётся запись в журнале.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">05</div>
+            <div class="step-title">Text-to-Speech ответы</div>
+          </div>
+          <div class="step-desc">синтез естественной речи с медицинским контекстом для озвучивания информации пациенту.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">06</div>
+            <div class="step-title">SMS-уведомления</div>
+          </div>
+          <div class="step-desc">автоматическая отправка подтверждения с датой, временем и адресом клиники после успешной записи.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">07</div>
+            <div class="step-title">Эскалация сложных случаев</div>
+          </div>
+          <div class="step-desc">при специфических жалобах или нестандартных запросах звонок автоматически переводится на администратора с передачей контекста разговора.</div>
+        </div></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Технические особенности</div>
+      <div class="card">
+        <div class="p">Вся логика реализована в n8n без написания кастомного кода. Использованы готовые узлы HTTP Request, Switch, Set, Code и встроенные интеграции с внешними API.
+Критичным оказался дизайн обработки ошибок: при недоступности YCLIENTS API система автоматически переключается в режим сбора заявок с последующей синхронизацией. Это обеспечило uptime 99.7%.
+Среднее время выполнения workflow — 3.2 секунды от входящего звонка до начала диалога. Пиковая нагрузка в 47 одновременных звонков обрабатывается без деградации качества.
+___
+Технология: n8n workflow automation
+Время внедрения: 11 рабочих дней</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div class="label" style="margin-bottom:6px">Следующий шаг</div>
+          <div style="font-size:14px;color:var(--subtle)">Созвон 20 минут → уточняем интеграции, данные и KPI → даём план внедрения.</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="nav-cta" href="../../offers/01-voice-ai-assistant-n8n/" style="background:transparent;color:var(--accent);border:1px solid rgba(0,200,83,.35)">Открыть КП →</a>
+          <a class="nav-cta" href="https://t.me/Danil_alto" target="_blank" rel="noreferrer">Написать в Telegram ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Источник: Use_Case_001_Voice_AI_Assistant_n8n.docx</div>
+    </div>
+  </footer>
+
+  <script src="../../assets/usecases.js"></script>
+</body>
+</html>

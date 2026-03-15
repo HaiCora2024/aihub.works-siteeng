@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Мониторинг производительности роботов с помощью n8n — AIHUB.WORKS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/usecases.css" />
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a href="../../aihub/" class="logo" aria-label="AIHUB.WORKS">
+          <div class="logo-icon">AI</div>
+          <div class="logo-text">AIHUB<span>.WORKS</span></div>
+        </a>
+        <a href="https://t.me/Danil_alto" class="nav-cta" target="_blank" rel="noreferrer">
+          Написать в Telegram ↗
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <a class="backlink" href="../">← Все кейсы</a>
+      <div style="height:14px"></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Use Case 07</div>
+      <h1>Мониторинг производительности роботов с помощью n8n</h1>
+      <p class="sub">Система отслеживания производительности роботов-уборщиков в реальном времени</p>
+      <div class="meta-row">
+        <div class="meta">
+          <div class="meta-k">Срок</div>
+          <div class="meta-v">60 рабочих дней</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Технология</div>
+          <div class="meta-v">n8n workflow automation</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Метрика</div>
+          <div class="meta-v accent">3 дней</div>
+        </div></div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <div class="label">Бизнес-задача</div>
+          <div class="p">Компании с парком роботов для уборки столкнулась со сложностью мониторинга эффективности использования оборудования (25500+ задач ежемесячно). Ручной сбор данных о призводительности роботов занимал значительное время и не давал оперативной картины для оптимизации производственных процессов.</div>
+        </div>
+        <div class="card">
+          <div class="label">Реализованное решение</div>
+          <div class="p">На базе n8n была построена система мониторинга, объединяющая сбор телеметрии с роботов, агрегацию метрик и визуализацию данных в единый автоматизированный поток отслеживания производительности.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Ключевые компоненты workflow</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">01</div>
+            <div class="step-title">Scheduled триггер</div>
+          </div>
+          <div class="step-desc">запускает сбор данных по расписанию для регулярного обновления метрик.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">02</div>
+            <div class="step-title">HTTP Request модуль</div>
+          </div>
+          <div class="step-desc">получает телеметрию с API контроллеров роботов (статус, время работы, простои).</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">03</div>
+            <div class="step-title">Модуль агрегации данных</div>
+          </div>
+          <div class="step-desc">рассчитывает коэффициенты производительности и KPI по каждому роботу и линии.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">04</div>
+            <div class="step-title">Интеграция с базой данных Airtable</div>
+          </div>
+          <div class="step-desc">сохраняет исторические данные для анализа трендов и построения отчётов.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">05</div>
+            <div class="step-title">Модуль расчёта аномалий</div>
+          </div>
+          <div class="step-desc">выявляет отклонения от нормальных показателей утилизации.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">06</div>
+            <div class="step-title">Dashboard обновление Airtable</div>
+          </div>
+          <div class="step-desc">передаёт актуальные данные в систему визуализации для мониторинга и отчетов.​</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">07</div>
+            <div class="step-title">Alert-уведомления</div>
+          </div>
+          <div class="step-desc">отправляет оповещения по email при критическом снижении утилизации или сбоях, а также отправляет оформленные письма для клиентов .</div>
+        </div></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Технические особенности</div>
+      <div class="card">
+        <div class="p">Вся логика реализована в n8n с использованием узлов Schedule Trigger, HTTP Request, Code, PostgreSQL и Email. Кастомный JavaScript выполняет расчёт коэффициентов утилизации по формулам OEE (Overall Equipment Effectiveness). Базой данных выступила система Airtable со встроенным дашбордом.
+Оссобенностью являет дизайн системы выявления аномалий: настроены пороговые значения для каждого типа робота с учётом специфики производственного цикла. При снижении уровня перформанса (норма - average performance &gt; 80%) более 3 дней подряд, система автоматически инициирует эскалацию внутренней команде.
+Система обрабатывает данные с парка из 170+ роботов (~850 ежедневных задач) с интервалом опроса 24 часа, пакетами. Исторические данные хранятся для построения трендов и прогнозирования необходимости технического обслуживания.
+___
+Технология: n8n workflow automation
+Время внедрения: 60 рабочих дней</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div class="label" style="margin-bottom:6px">Следующий шаг</div>
+          <div style="font-size:14px;color:var(--subtle)">Созвон 20 минут → уточняем интеграции, данные и KPI → даём план внедрения.</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="nav-cta" href="../../offers/07-robotmonitoring/" style="background:transparent;color:var(--accent);border:1px solid rgba(0,200,83,.35)">Открыть КП →</a>
+          <a class="nav-cta" href="https://t.me/Danil_alto" target="_blank" rel="noreferrer">Написать в Telegram ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Источник: UseCase_07_RobotMonitoring.docx</div>
+    </div>
+  </footer>
+
+  <script src="../../assets/usecases.js"></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Скрининг резюме с помощью n8n — AIHUB.WORKS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/usecases.css" />
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a href="../../aihub/" class="logo" aria-label="AIHUB.WORKS">
+          <div class="logo-icon">AI</div>
+          <div class="logo-text">AIHUB<span>.WORKS</span></div>
+        </a>
+        <a href="https://t.me/Danil_alto" class="nav-cta" target="_blank" rel="noreferrer">
+          Написать в Telegram ↗
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <a class="backlink" href="../">← Все кейсы</a>
+      <div style="height:14px"></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Use Case 08</div>
+      <h1>Скрининг резюме с помощью n8n</h1>
+      <p class="sub">RAG-система автоматического анализа кандидатов для HR</p>
+      <div class="meta-row">
+        <div class="meta">
+          <div class="meta-k">Срок</div>
+          <div class="meta-v">10 рабочих дней</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Технология</div>
+          <div class="meta-v">n8n workflow automation</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Метрика</div>
+          <div class="meta-v accent">15 секунд</div>
+        </div></div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <div class="label">Бизнес-задача</div>
+          <div class="p">HR-отделы крупных компаний получают сотни резюме на каждую вакансию, что делает ручной первичный скрининг трудоёмким и субъективным процессом. Клиенту требовалась система, способная автоматически оценивать соответствие кандидатов требованиям вакансии с использованием семантического анализа.</div>
+        </div>
+        <div class="card">
+          <div class="label">Реализованное решение</div>
+          <div class="p">На базе n8n была построена RAG-система (Retrieval-Augmented Generation), объединяющая векторное хранилище резюме, семантический поиск и AI-оценку в единый автоматизированный поток скрининга кандидатов.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Ключевые компоненты workflow</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">01</div>
+            <div class="step-title">Webhook триггер</div>
+          </div>
+          <div class="step-desc">принимает новые резюме из ATS (Applicant Tracking System) или email.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">02</div>
+            <div class="step-title">Document Parser модуль</div>
+          </div>
+          <div class="step-desc">извлекает текст из PDF/DOCX резюме и структурирует данные кандидата.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">03</div>
+            <div class="step-title">Embedding генератор</div>
+          </div>
+          <div class="step-desc">создаёт векторные представления резюме для семантического поиска.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">04</div>
+            <div class="step-title">Vector Store интеграция</div>
+          </div>
+          <div class="step-desc">сохраняет эмбеддинги в Pinecone/Qdrant для быстрого поиска похожих кандидатов.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">05</div>
+            <div class="step-title">RAG Query модуль</div>
+          </div>
+          <div class="step-desc">выполняет семантический поиск по требованиям вакансии в базе резюме.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">06</div>
+            <div class="step-title">AI-агент оценки</div>
+          </div>
+          <div class="step-desc">анализирует соответствие кандидата и формирует скоринг по критериям.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">07</div>
+            <div class="step-title">Результат в ATS</div>
+          </div>
+          <div class="step-desc">обновляет статус кандидата и добавляет AI-рекомендации в систему рекрутинга.</div>
+        </div></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Технические особенности</div>
+      <div class="card">
+        <div class="p">Вся логика реализована в n8n с использованием узлов Webhook, Extract from File, OpenAI Embeddings, Pinecone Vector Store и GPT-4 для финальной оценки. Кастомный код выполняет нормализацию текста и chunking документов.
+Критичным оказался дизайн RAG-пайплайна: резюме разбиваются на семантические блоки (опыт, навыки, образование) с перекрытием для сохранения контекста. Поиск выполняется по каждому критерию вакансии отдельно с последующей агрегацией результатов.
+Система обрабатывает до 100 резюме в час с точностью скрининга 92% относительно экспертной оценки. Среднее время обработки одного резюме — 15 секунд.
+___
+Технология: n8n workflow automation
+Время внедрения: 10 рабочих дней</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div class="label" style="margin-bottom:6px">Следующий шаг</div>
+          <div style="font-size:14px;color:var(--subtle)">Созвон 20 минут → уточняем интеграции, данные и KPI → даём план внедрения.</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="nav-cta" href="../../offers/08-resumescreening/" style="background:transparent;color:var(--accent);border:1px solid rgba(0,200,83,.35)">Открыть КП →</a>
+          <a class="nav-cta" href="https://t.me/Danil_alto" target="_blank" rel="noreferrer">Написать в Telegram ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Источник: UseCase_08_ResumeScreening.docx</div>
+    </div>
+  </footer>
+
+  <script src="../../assets/usecases.js"></script>
+</body>
+</html>

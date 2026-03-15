@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Автоматический расчёт KPI партнёров с помощью n8n — AIHUB.WORKS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/usecases.css" />
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a href="../../aihub/" class="logo" aria-label="AIHUB.WORKS">
+          <div class="logo-icon">AI</div>
+          <div class="logo-text">AIHUB<span>.WORKS</span></div>
+        </a>
+        <a href="https://t.me/Danil_alto" class="nav-cta" target="_blank" rel="noreferrer">
+          Написать в Telegram ↗
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <a class="backlink" href="../">← Все кейсы</a>
+      <div style="height:14px"></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Use Case 01</div>
+      <h1>Автоматический расчёт KPI партнёров с помощью n8n</h1>
+      <p class="sub">Система real-time аналитики для партнёрского портала</p>
+      <div class="meta-row">
+        <div class="meta">
+          <div class="meta-k">Срок</div>
+          <div class="meta-v">5 рабочих дней</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Технология</div>
+          <div class="meta-v">n8n workflow automation</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Метрика</div>
+          <div class="meta-v">—</div>
+        </div></div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <div class="label">Бизнес-задача</div>
+          <div class="p">Клиенту требовалась автоматизированная система для отслеживания эффективности партнёров в режиме реального времени. Ручной сбор статистики по лидам и заявкам от каждого партнёра занимал значительное время, приводил к ошибкам в расчётах и не давал оперативной картины для принятия бизнес-решений.</div>
+        </div>
+        <div class="card">
+          <div class="label">Реализованное решение</div>
+          <div class="p">На базе n8n была построена двухкомпонентная система автоматизации, объединяющая real-time триггеры в Airtable и внешний сервис обработки данных в единый автоматизированный поток расчёта партнёрских KPI.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Ключевые компоненты workflow</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">01</div>
+            <div class="step-title">Webhook триггер</div>
+          </div>
+          <div class="step-desc">принимает события от Airtable при создании или изменении записей в базе данных партнёров.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">02</div>
+            <div class="step-title">Модуль автоматического связывания</div>
+          </div>
+          <div class="step-desc">при поступлении нового лида самостоятельно находит соответствующего партнёра и устанавливает между ними связь в базе данных.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">03</div>
+            <div class="step-title">Интеллектуальная логика расчёта</div>
+          </div>
+          <div class="step-desc">выполняет сложные вычисления статистики и комиссий с помощью кастомного кода на JavaScript.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">04</div>
+            <div class="step-title">Модуль агрегации данных</div>
+          </div>
+          <div class="step-desc">объединяет несколько потоков данных для формирования сводной статистики по всем партнёрам.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">05</div>
+            <div class="step-title">Интеграция с Airtable API</div>
+          </div>
+          <div class="step-desc">автоматически обновляет сводные KPI в главной таблице партнёров.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">06</div>
+            <div class="step-title">Email-уведомления</div>
+          </div>
+          <div class="step-desc">отправляет оповещения менеджерам при создании ключевых записей.</div>
+        </div></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Технические особенности</div>
+      <div class="card">
+        <div class="p">Вся логика реализована в n8n с использованием готовых узлов Airtable, Webhook, Code и Merge. Кастомный JavaScript-код выполняет расчёт комиссионных вознаграждений и агрегацию метрик по настраиваемым формулам.
+Критичным оказался дизайн событийно-ориентированной архитектуры: настроена отправка вебхуков во внешние системы при всех значимых событиях (создание записи, изменение статуса), что позволяет сервисам реагировать на изменения мгновенно.
+Система обеспечивает 100% точность в расчётах эффективности партнёров. Дашборд с актуальными данными обновляется в реальном времени, что позволяет оперативно принимать решения о развитии партнёрской сети.
+___
+Технология: n8n workflow automation
+Время внедрения: 5 рабочих дней</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div class="label" style="margin-bottom:6px">Следующий шаг</div>
+          <div style="font-size:14px;color:var(--subtle)">Созвон 20 минут → уточняем интеграции, данные и KPI → даём план внедрения.</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="nav-cta" href="../../offers/01-kpi-partners/" style="background:transparent;color:var(--accent);border:1px solid rgba(0,200,83,.35)">Открыть КП →</a>
+          <a class="nav-cta" href="https://t.me/Danil_alto" target="_blank" rel="noreferrer">Написать в Telegram ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Источник: UseCase_01_KPI_Partners.docx</div>
+    </div>
+  </footer>
+
+  <script src="../../assets/usecases.js"></script>
+</body>
+</html>

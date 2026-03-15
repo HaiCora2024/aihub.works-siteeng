@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KYB-оценка бизнеса с помощью n8n — AIHUB.WORKS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/usecases.css" />
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a href="../../aihub/" class="logo" aria-label="AIHUB.WORKS">
+          <div class="logo-icon">AI</div>
+          <div class="logo-text">AIHUB<span>.WORKS</span></div>
+        </a>
+        <a href="https://t.me/Danil_alto" class="nav-cta" target="_blank" rel="noreferrer">
+          Написать в Telegram ↗
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <a class="backlink" href="../">← Все кейсы</a>
+      <div style="height:14px"></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Use Case 06</div>
+      <h1>KYB-оценка бизнеса с помощью n8n</h1>
+      <p class="sub">Геймифицированная платформа комплаенс-проверки для предпринимателей</p>
+      <div class="meta-row">
+        <div class="meta">
+          <div class="meta-k">Срок</div>
+          <div class="meta-v">5 рабочих дней</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Технология</div>
+          <div class="meta-v">n8n workflow automation</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Метрика</div>
+          <div class="meta-v">—</div>
+        </div></div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <div class="label">Бизнес-задача</div>
+          <div class="p">Банки и финансовые организации сталкиваются с необходимостью проводить KYB-проверки новых клиентов, что традиционно требует сложных форм и длительной обработки. Клиенту требовалась платформа, которая делает процесс оценки бизнес-рисков понятным и увлекательным для предпринимателей, одновременно собирая структурированные данные для комплаенс-анализа.</div>
+        </div>
+        <div class="card">
+          <div class="label">Реализованное решение</div>
+          <div class="p">На базе n8n была построена геймифицированная платформа webankyou.com, объединяющая интерактивный опросник из 9 вопросов, систему скоринга и AI-генерацию персонализированных писем в единый автоматизированный поток оценки бизнес-рисков.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Ключевые компоненты workflow</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">01</div>
+            <div class="step-title">Webhook триггер</div>
+          </div>
+          <div class="step-desc">принимает данные опросника с веб-формы при завершении прохождения.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">02</div>
+            <div class="step-title">Модуль скоринга</div>
+          </div>
+          <div class="step-desc">рассчитывает балл по 9 параметрам (юрисдикция, правовая форма, комплаенс, риски) с максимумом 108 баллов.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">03</div>
+            <div class="step-title">Классификатор уровня риска</div>
+          </div>
+          <div class="step-desc">распределяет клиентов по трём категориям: низкий риск (≥80), умеренный (50-79), высокий (&lt;50).</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">04</div>
+            <div class="step-title">Интеграция с Airtable</div>
+          </div>
+          <div class="step-desc">сохраняет данные клиента, результаты оценки и историю взаимодействий.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">05</div>
+            <div class="step-title">AI-агент генерации писем</div>
+          </div>
+          <div class="step-desc">использует Google Gemini для создания персонализированных рекомендаций на основе уровня риска.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">06</div>
+            <div class="step-title">Google Drive модуль</div>
+          </div>
+          <div class="step-desc">прикрепляет PDF чек-лист с рекомендациями к письму.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">07</div>
+            <div class="step-title">Email-уведомления</div>
+          </div>
+          <div class="step-desc">отправляет результаты оценки через SendGrid с персонализированным содержанием.</div>
+        </div></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Технические особенности</div>
+      <div class="card">
+        <div class="p">Вся логика реализована в n8n с использованием узлов Webhook, Code, Airtable, HTTP Request (Google Gemini API), Google Drive и SendGrid. Кастомный JavaScript выполняет расчёт скоринга по взвешенным коэффициентам для каждого из 9 вопросов.
+Критичным оказался дизайн трёхуровневой классификации рисков: система автоматически определяет категорию клиента и выбирает соответствующий шаблон письма. AI-агент генерирует уникальные рекомендации, учитывающие конкретные ответы пользователя.
+Платформа поддерживает мультиязычность (EN/RU) и обрабатывает данные в реальном времени. Frontend реализован на Replit с использованием Tailwind CSS и shadcn/ui компонентов.
+___
+Технология: n8n workflow automation
+Время внедрения: 5 рабочих дней</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div class="label" style="margin-bottom:6px">Следующий шаг</div>
+          <div style="font-size:14px;color:var(--subtle)">Созвон 20 минут → уточняем интеграции, данные и KPI → даём план внедрения.</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="nav-cta" href="../../offers/06-kyb/" style="background:transparent;color:var(--accent);border:1px solid rgba(0,200,83,.35)">Открыть КП →</a>
+          <a class="nav-cta" href="https://t.me/Danil_alto" target="_blank" rel="noreferrer">Написать в Telegram ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Источник: UseCase_06_KYB.docx</div>
+    </div>
+  </footer>
+
+  <script src="../../assets/usecases.js"></script>
+</body>
+</html>

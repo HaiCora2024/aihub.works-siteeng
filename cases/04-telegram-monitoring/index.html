@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Мониторинг Telegram-чатов с помощью n8n — AIHUB.WORKS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/usecases.css" />
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a href="../../aihub/" class="logo" aria-label="AIHUB.WORKS">
+          <div class="logo-icon">AI</div>
+          <div class="logo-text">AIHUB<span>.WORKS</span></div>
+        </a>
+        <a href="https://t.me/Danil_alto" class="nav-cta" target="_blank" rel="noreferrer">
+          Написать в Telegram ↗
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <a class="backlink" href="../">← Все кейсы</a>
+      <div style="height:14px"></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Use Case 04</div>
+      <h1>Мониторинг Telegram-чатов с помощью n8n</h1>
+      <p class="sub">Система отслеживания ключевых слов с real-time уведомлениями</p>
+      <div class="meta-row">
+        <div class="meta">
+          <div class="meta-k">Срок</div>
+          <div class="meta-v">3 рабочих дня</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Технология</div>
+          <div class="meta-v">n8n workflow automation</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Метрика</div>
+          <div class="meta-v">—</div>
+        </div></div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <div class="label">Бизнес-задача</div>
+          <div class="p">Необходимо было автоматизировать отслеживание упоминаний ключевых слов в десятках активных Telegram-чатах. Ручной мониторинг был неэффективен и отнимал много времени. Требовалось создать систему, которая бы мгновенно находила релевантные сообщения и отправляла уведомление со ссылкой на них.</div>
+        </div>
+        <div class="card">
+          <div class="label">Реализованное решение</div>
+          <div class="p">На базе n8n и Python была построена двухкомпонентная система автоматизации, объединяющая внешний сканер сообщений и автоматизированный уведомитель в единый поток обработки данных в реальном времени.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Ключевые компоненты workflow</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">01</div>
+            <div class="step-title">Python-сканер (Telethon)</div>
+          </div>
+          <div class="step-desc">подключается к Telegram API как пользователь и в реальном времени анализирует новые сообщения в указанных чатах.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">02</div>
+            <div class="step-title">Фильтрация по ключевым словам</div>
+          </div>
+          <div class="step-desc">логика сканирования отбирает только сообщения, содержащие заданные ключевые слова.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">03</div>
+            <div class="step-title">Обогащение данных</div>
+          </div>
+          <div class="step-desc">скрипт формирует прямую ссылку на исходное сообщение, корректно обрабатывая публичные и приватные каналы.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">04</div>
+            <div class="step-title">Webhook триггер</div>
+          </div>
+          <div class="step-desc">принимает структурированные JSON-данные от Python-скрипта для дальнейшей обработки в n8n.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">05</div>
+            <div class="step-title">Telegram-уведомления</div>
+          </div>
+          <div class="step-desc">мгновенно отправляет извещение с текстом, ссылкой и данными об авторе в личный чат.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">06</div>
+            <div class="step-title">Конфигурационный модуль</div>
+          </div>
+          <div class="step-desc">позволяет гибко настраивать список отслеживаемых чатов и ключевых слов.</div>
+        </div></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Технические особенности</div>
+      <div class="card">
+        <div class="p">Система построена на связке Python с библиотекой Telethon и n8n workflow. Telethon используется для асинхронного прослушивания событий events.NewMessage, что обеспечивает мгновенное получение новых сообщений без задержек.
+Критичным оказался дизайн обогащения данных: скрипт не просто передаёт текст, но и собирает метаинформацию — имя автора, username, название чата — и формирует корректные ссылки как для публичных, так и для приватных каналов.
+Решение является полностью гибким: список отслеживаемых чатов и ключевых слов настраивается в конфигурации скрипта, что позволяет адаптировать систему под разные задачи — от поиска клиентов до мониторинга конкурентов.
+___
+Технология: n8n workflow automation
+Время внедрения: 3 рабочих дня</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div class="label" style="margin-bottom:6px">Следующий шаг</div>
+          <div style="font-size:14px;color:var(--subtle)">Созвон 20 минут → уточняем интеграции, данные и KPI → даём план внедрения.</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="nav-cta" href="../../offers/04-telegram-monitoring/" style="background:transparent;color:var(--accent);border:1px solid rgba(0,200,83,.35)">Открыть КП →</a>
+          <a class="nav-cta" href="https://t.me/Danil_alto" target="_blank" rel="noreferrer">Написать в Telegram ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Источник: UseCase_04_Telegram_Monitoring.docx</div>
+    </div>
+  </footer>
+
+  <script src="../../assets/usecases.js"></script>
+</body>
+</html>

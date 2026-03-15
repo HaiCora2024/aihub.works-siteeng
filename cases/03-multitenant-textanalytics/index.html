@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Multi-tenant платформа анализа настроений — AIHUB.WORKS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/usecases.css" />
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a href="../../aihub/" class="logo" aria-label="AIHUB.WORKS">
+          <div class="logo-icon">AI</div>
+          <div class="logo-text">AIHUB<span>.WORKS</span></div>
+        </a>
+        <a href="https://t.me/Danil_alto" class="nav-cta" target="_blank" rel="noreferrer">
+          Написать в Telegram ↗
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <a class="backlink" href="../">← Все кейсы</a>
+      <div style="height:14px"></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Use Case 03</div>
+      <h1>Multi-tenant платформа анализа настроений</h1>
+      <p class="sub">Система для обработки сообщений из внутренниз чатов</p>
+      <div class="meta-row">
+        <div class="meta">
+          <div class="meta-k">Срок</div>
+          <div class="meta-v">3 недели</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Технология</div>
+          <div class="meta-v">n8n workflow automation</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Метрика</div>
+          <div class="meta-v">—</div>
+        </div></div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <div class="label">Бизнес-задача</div>
+          <div class="p">Стартапу требовалось разработать бэкенд-систему, способную в реальном времени обрабатывать большие потоки неструктурированных текстовых данных из групповых чатов и отзывов, извлекать количественные метрики и предоставлять к ним доступ по API в безопасной multi-tenant среде с изоляцией данных клиентов.</div>
+        </div>
+        <div class="card">
+          <div class="label">Реализованное решение</div>
+          <div class="p">На базе n8n была построена масштабируемая платформа с мультитенантной архитектурой, объединяющая PostgreSQL для хранения данных, систему авторизации с ролевым доступом и AI-конвейер анализа текстов в единый автоматизированный поток.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Ключевые компоненты workflow</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">01</div>
+            <div class="step-title">Webhook API-эндпоинты</div>
+          </div>
+          <div class="step-desc">принимают запросы на авторизацию, управление пользователями и получение аналитических данных.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">02</div>
+            <div class="step-title">Модуль мультитенантной маршрутизации</div>
+          </div>
+          <div class="step-desc">определяет по customer_id нужную схему данных в PostgreSQL, обеспечивая полную изоляцию клиентов.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">03</div>
+            <div class="step-title">Система авторизации и RBAC</div>
+          </div>
+          <div class="step-desc">реализует ролевой доступ с разными правами в зависимости от роли пользователя.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">04</div>
+            <div class="step-title">Stateful-обработчик данных</div>
+          </div>
+          <div class="step-desc">запоминает время последнего анализа и обрабатывает только новые записи для высокой производительности.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">05</div>
+            <div class="step-title">AI-конвейер на базе DeepSeek</div>
+          </div>
+          <div class="step-desc">выполняет семантическую очистку текста от шума, сохраняя ключевое смысловое ядро.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">06</div>
+            <div class="step-title">Модуль расчёта метрик</div>
+          </div>
+          <div class="step-desc">вычисляет и сохраняет в базу количественные показатели на основе очищенного текста.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">07</div>
+            <div class="step-title">Динамический SQL-генератор</div>
+          </div>
+          <div class="step-desc">формирует гибкие запросы для фильтрации аналитики по различным параметрам.</div>
+        </div></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Технические особенности</div>
+      <div class="card">
+        <div class="p">Вся логика реализована в n8n с использованием узлов Webhook, PostgreSQL, Code и HTTP Request для интеграции с DeepSeek AI. Кастомный JavaScript-код обеспечивает динамическое построение SQL-запросов и обработку текстовых данных.
+Система изначально спроектирована для поддержки нескольких клиентов с полной изоляцией данных через отдельные потоки данных. Мы использовали умную систему обработки данных, которая помнит контекст. Вместо того чтобы каждый раз пересчитывать огромные массивы информации с нуля, система просто добавляет новые данные к уже имеющимся результатам. Это позволяет проводить анализ в реальном времени и значительно экономит затраты на серверные мощности
+Платформа демонстрирует способность масштабироваться для SaaS-модели. AI-модель с продвинутым системным промптом обеспечивает качественную очистку текста от филлеров и сленга при сохранении смыслового ядра сообщений.
+___
+Технология: n8n workflow automation
+Время внедрения: 3 недели</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div class="label" style="margin-bottom:6px">Следующий шаг</div>
+          <div style="font-size:14px;color:var(--subtle)">Созвон 20 минут → уточняем интеграции, данные и KPI → даём план внедрения.</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="nav-cta" href="../../offers/03-multitenant-textanalytics/" style="background:transparent;color:var(--accent);border:1px solid rgba(0,200,83,.35)">Открыть КП →</a>
+          <a class="nav-cta" href="https://t.me/Danil_alto" target="_blank" rel="noreferrer">Написать в Telegram ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Источник: UseCase_03_MultiTenant_TextAnalytics.docx</div>
+    </div>
+  </footer>
+
+  <script src="../../assets/usecases.js"></script>
+</body>
+</html>

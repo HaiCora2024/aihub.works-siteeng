@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI-перевод PDF-документов с помощью n8n — AIHUB.WORKS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/usecases.css" />
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a href="../../aihub/" class="logo" aria-label="AIHUB.WORKS">
+          <div class="logo-icon">AI</div>
+          <div class="logo-text">AIHUB<span>.WORKS</span></div>
+        </a>
+        <a href="https://t.me/Danil_alto" class="nav-cta" target="_blank" rel="noreferrer">
+          Написать в Telegram ↗
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <a class="backlink" href="../">← Все кейсы</a>
+      <div style="height:14px"></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Use Case 02</div>
+      <h1>AI-перевод PDF-документов с помощью n8n</h1>
+      <p class="sub">Telegram-бот PDF Linguist для перевода документов</p>
+      <div class="meta-row">
+        <div class="meta">
+          <div class="meta-k">Срок</div>
+          <div class="meta-v">2 недели</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Технология</div>
+          <div class="meta-v">n8n workflow automation</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Метрика</div>
+          <div class="meta-v">—</div>
+        </div></div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <div class="label">Бизнес-задача</div>
+          <div class="p">Требовалось создать инструмент, способный переводить содержимое PDF-файлов, включая сканы и изображения с некопируемым текстом. Сложность заключалась не только в переводе, но и в извлечении текста из документа и последующей сборке переведённого контента обратно в PDF с сохранением структуры.</div>
+        </div>
+        <div class="card">
+          <div class="label">Реализованное решение</div>
+          <div class="p">На базе n8n был построен многокомпонентный Telegram-бот, представляющий собой сложный автоматизированный конвейер, интегрированный с облачными сервисами Google Cloud Platform.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Ключевые компоненты workflow</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">01</div>
+            <div class="step-title">Telegram триггер</div>
+          </div>
+          <div class="step-desc">принимает PDF-файл и желаемый язык перевода от пользователя.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">02</div>
+            <div class="step-title">Google Cloud Storage модуль</div>
+          </div>
+          <div class="step-desc">временно загружает файл в облачное хранилище для обработки.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">03</div>
+            <div class="step-title">Google Vision AI (OCR) модуль</div>
+          </div>
+          <div class="step-desc">запускает асинхронную задачу распознавания и извлечения текста из PDF.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">04</div>
+            <div class="step-title">Механизм циклической проверки</div>
+          </div>
+          <div class="step-desc">контролирует статус выполнения долгих OCR-задач до их завершения.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">05</div>
+            <div class="step-title">Google Gemini AI модуль</div>
+          </div>
+          <div class="step-desc">переводит текст и верстает его в HTML-документ с сохранением табличной структуры.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">06</div>
+            <div class="step-title">Api2Pdf интеграция</div>
+          </div>
+          <div class="step-desc">конвертирует HTML обратно в PDF-файл.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">07</div>
+            <div class="step-title">Telegram ответ</div>
+          </div>
+          <div class="step-desc">отправляет готовый переведённый документ пользователю.</div>
+        </div></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Технические особенности</div>
+      <div class="card">
+        <div class="p">Вся логика реализована в n8n с использованием узлов Telegram API, Google Cloud Storage, HTTP Request и Code. Стек включает Google Vision AI для OCR и Google Gemini для AI-перевода.
+Критичным оказался дизайн асинхронных операций: создан механизм циклической проверки статуса для работы с долго выполняющимися задачами Google Vision AI, что обеспечивает стабильность процесса при обработке больших документов.
+Использован комплексный системный промпт для одновременного перевода текста и его структурирования в HTML-формат. Вся сложная логика скрыта за простым интерфейсом Telegram-бота.
+___
+Технология: n8n workflow automation
+Время внедрения: 2 недели</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div class="label" style="margin-bottom:6px">Следующий шаг</div>
+          <div style="font-size:14px;color:var(--subtle)">Созвон 20 минут → уточняем интеграции, данные и KPI → даём план внедрения.</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="nav-cta" href="../../offers/02-pdf-linguist/" style="background:transparent;color:var(--accent);border:1px solid rgba(0,200,83,.35)">Открыть КП →</a>
+          <a class="nav-cta" href="https://t.me/Danil_alto" target="_blank" rel="noreferrer">Написать в Telegram ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Источник: UseCase_02_PDF_Linguist.docx</div>
+    </div>
+  </footer>
+
+  <script src="../../assets/usecases.js"></script>
+</body>
+</html>

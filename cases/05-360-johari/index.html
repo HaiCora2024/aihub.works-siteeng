@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>360-оценка персонала с окном Джохари с помощью n8n — AIHUB.WORKS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/usecases.css" />
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a href="../../aihub/" class="logo" aria-label="AIHUB.WORKS">
+          <div class="logo-icon">AI</div>
+          <div class="logo-text">AIHUB<span>.WORKS</span></div>
+        </a>
+        <a href="https://t.me/Danil_alto" class="nav-cta" target="_blank" rel="noreferrer">
+          Написать в Telegram ↗
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <a class="backlink" href="../">← Все кейсы</a>
+      <div style="height:14px"></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Use Case 05</div>
+      <h1>360-оценка персонала с окном Джохари с помощью n8n</h1>
+      <p class="sub">Telegram-бот для сбора обратной связи и персонального развития</p>
+      <div class="meta-row">
+        <div class="meta">
+          <div class="meta-k">Срок</div>
+          <div class="meta-v">3 недели</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Технология</div>
+          <div class="meta-v">n8n workflow automation</div>
+        </div>
+
+        <div class="meta">
+          <div class="meta-k">Метрика</div>
+          <div class="meta-v accent">20 минут</div>
+        </div></div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <div class="label">Бизнес-задача</div>
+          <div class="p">Компаниям требовался инструмент для проведения комплексной 360-оценки сотрудников, который объединяет самооценку, обратную связь от коллег и руководства, и при этом автоматически анализирует результаты. Существующие HR-платформы были дороги, сложны в настройке и не предоставляли возможности глубокого анализа через призму психологических моделей, таких как окно Джохари.</div>
+        </div>
+        <div class="card">
+          <div class="label">Реализованное решение</div>
+          <div class="p">На базе n8n был построен многофункциональный Telegram-бот, который проводит комплексную 360-оценку сотрудников. Система собирает самооценку по колесу баланса и целям, распространяет анонимные опросники среди коллег и руководителей, а затем сравнивает результаты через модель окна Джохари для выявления слепых зон и скрытых сильных сторон.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Ключевые компоненты workflow</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">01</div>
+            <div class="step-title">Telegram-бот триггер</div>
+          </div>
+          <div class="step-desc">принимает команды пользователя и запускает соответствующие сценарии оценки (самооценка, 360-ревью, модуль предназначения).</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">02</div>
+            <div class="step-title">Модуль самооценки (SELF)</div>
+          </div>
+          <div class="step-desc">проводит пользователя через колесо баланса (8 сфер жизни), постановку целей с метриками и сроками, выбор личных качеств по чек-листу Джохари.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">03</div>
+            <div class="step-title">Модуль внешней оценки (OTHERS)</div>
+          </div>
+          <div class="step-desc">генерирует уникальные ссылки для анонимного опроса коллег, руководителей, подчинённых и даже близких с ролевыми вопросниками.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">04</div>
+            <div class="step-title">AI-аналитика окна Джохари</div>
+          </div>
+          <div class="step-desc">сравнивает выбранные качества SELF vs OTHERS и распределяет их по четырём квадрантам: открытое, слепое, скрытое, неизвестное.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">05</div>
+            <div class="step-title">Генератор визуальных отчётов</div>
+          </div>
+          <div class="step-desc">формирует диаграммы колеса баланса, окна Джохари и сводный Individual Development Plan.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">06</div>
+            <div class="step-title">AI-коуч привычек</div>
+          </div>
+          <div class="step-desc">на основе выявленных зон роста генерирует персональные ежедневные привычки и микро-эксперименты по 8 архетипам.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">07</div>
+            <div class="step-title">Интеграция с базой данных</div>
+          </div>
+          <div class="step-desc">сохраняет все ответы, историю оценок и прогресс пользователя для отслеживания динамики во времени.</div>
+        </div></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Технические особенности</div>
+      <div class="card">
+        <div class="p">Вся логика реализована в n8n с использованием узлов Telegram, Code, HTTP Request и интеграции с AI-моделями. Кастомный JavaScript обрабатывает сложную логику сопоставления качеств по модели Джохари и расчёта баллов по биполярным шкалам.
+Критичным оказался дизайн модульной архитектуры: система поддерживает различные ролевые опросники (коллега, руководитель, подчинённый, партнёр, друг, ребёнок 8+), каждый со своим набором шкал и открытых вопросов. Реализована полная анонимность внешних оценок.
+Система автоматически рассчитывает дельту между самооценкой и внешней оценкой по 10 биполярным осям и генерирует персонализированные рекомендации. Среднее время прохождения полного цикла оценки — 15-20 минут для пользователя и 3 минуты для каждого оценщика.
+___
+Технология: n8n workflow automation
+Время внедрения: 3 недели</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div class="label" style="margin-bottom:6px">Следующий шаг</div>
+          <div style="font-size:14px;color:var(--subtle)">Созвон 20 минут → уточняем интеграции, данные и KPI → даём план внедрения.</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="nav-cta" href="../../offers/05-360-johari/" style="background:transparent;color:var(--accent);border:1px solid rgba(0,200,83,.35)">Открыть КП →</a>
+          <a class="nav-cta" href="https://t.me/Danil_alto" target="_blank" rel="noreferrer">Написать в Telegram ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Источник: UseCase_05_360_Johari.docx</div>
+    </div>
+  </footer>
+
+  <script src="../../assets/usecases.js"></script>
+</body>
+</html>
