@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Автоматизация обновления данных по строящимся объектам недвижимости — AIHUB.WORKS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/usecases.css" />
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a href="/" class="logo" aria-label="AIHUB.WORKS">
+          <div class="logo-icon">AI</div>
+          <div class="logo-text">AIHUB<span>.WORKS</span></div>
+        </a>
+        <a href="https://t.me/Danil_alto" class="nav-cta" target="_blank" rel="noreferrer">
+          Написать в Telegram ↗
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <a class="backlink" href="../">← Все кейсы</a>
+      <div style="height:14px"></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Use Case 17 · real estate</div>
+      <h1>Автоматизация обновления данных по строящимся объектам недвижимости</h1>
+      <p class="sub">Омниканальная система сбора и структурирования данных от застройщиков</p>
+      <div class="meta-row">
+        <div class="meta">
+          <div class="meta-k">Срок</div>
+          <div class="meta-v">120 рабочих дней</div>
+        </div>
+        <div class="meta">
+          <div class="meta-k">Технология</div>
+          <div class="meta-v">Python, OpenAI Whisper, Azure Document Intelligence</div>
+        </div>
+        <div class="meta">
+          <div class="meta-k">Метрика</div>
+          <div class="meta-v">с 2 часов/день до 0</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <div class="label">Бизнес-задача</div>
+          <div class="p">Клиент — консалтинговое агентство по управлению недвижимостью — получал обновления по объектам в хаотичном формате: файлы Excel с планировками, PDF-презентации, голосовые сообщения от менеджеров застройщика в WhatsApp, PowerPoint с рендерами. Актуализация карточек объектов в CRM занимала до 2 часов ежедневно, при этом данные нередко устаревали раньше, чем попадали к менеджерам продаж.</div>
+        </div>
+        <div class="card">
+          <div class="label">Реализованное решение</div>
+          <div class="p">Построена система автоматического приёма, распознавания и структурирования обновлений от застройщиков в любом формате с последующей загрузкой актуальных данных в CRM через API.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Ключевые компоненты системы</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">01</div>
+            <div class="step-title">Универсальный приёмник файлов</div>
+          </div>
+          <div class="step-desc">система принимает обновления из нескольких каналов: email-вложения, Telegram-бот для менеджеров застройщика, shared-папка. Поддерживаемые форматы: PPTX, DOCX, XLSX, PDF, MP3, OGG (голосовые сообщения), MP4.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">02</div>
+            <div class="step-title">Speech-to-Text модуль</div>
+          </div>
+          <div class="step-desc">голосовые сообщения от менеджеров автоматически транскрибируются с высокой точностью. Система понимает профессиональную лексику рынка недвижимости, названия жилых комплексов, планировок и корпусов.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">03</div>
+            <div class="step-title">Мультиформатный парсер документов</div>
+          </div>
+          <div class="step-desc">для каждого типа файла применяется специализированный pipeline: OCR для PDF и сканов, структурный парсер для Excel-таблиц с ценами, извлечение текстового слоя из PPTX-презентаций.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">04</div>
+            <div class="step-title">LLM-экстрактор ключевой информации</div>
+          </div>
+          <div class="step-desc">языковая модель извлекает из документов и транскриптов структурированные данные: статус строительства, сроки сдачи по корпусам, изменения в планировках, актуальные цены и действующие скидки, условия рассрочки и ипотеки.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">05</div>
+            <div class="step-title">Структурирование в JSON</div>
+          </div>
+          <div class="step-desc">все извлечённые данные приводятся к единому JSON-формату, совместимому со схемой CRM клиента. Консистентность данных независимо от источника и формата входящего документа.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">06</div>
+            <div class="step-title">Валидация перед загрузкой</div>
+          </div>
+          <div class="step-desc">система проверяет корректность данных перед отправкой в CRM: диапазоны цен (защита от опечаток), даты сдачи (не в прошлом), обязательные поля. При обнаружении аномалий — создаётся задача на ручную проверку.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">07</div>
+            <div class="step-title">Автоматическая отправка в CRM через API</div>
+          </div>
+          <div class="step-desc">подтверждённые данные поступают в CRM в режиме реального времени. История изменений сохраняется: менеджеры видят, что именно изменилось и когда.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Технические особенности</div>
+      <div class="card">
+        <div class="p">Система построена на модульной архитектуре: каждый тип файла обрабатывается своим pipeline, что позволяет добавлять новые форматы без переработки основной логики. Speech-to-Text реализован на базе Whisper, обработка документов — через Azure Document Intelligence и python-pptx/openpyxl для нативных форматов.
+Ключевым вызовом стала вариативность входных данных: каждый застройщик имеет свой шаблон и терминологию. Решением стал few-shot prompting с примерами от каждого застройщика — система «настраивается» на особенности конкретного источника.
+Время от получения файла до обновления карточки в CRM — менее 3 минут. Ежедневные затраты на актуализацию данных сократились с 2 часов до нуля.
+___
+Технология: Python, OpenAI Whisper, Azure Document Intelligence, OpenAI API, REST API CRM
+Время внедрения: 120 рабочих дней</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div class="label" style="margin-bottom:6px">Следующий шаг</div>
+          <div style="font-size:14px;color:var(--subtle)">Созвон 20 минут → уточняем интеграции, данные и KPI → даём план внедрения.</div>
+        </div>
+        <a class="nav-cta" href="https://t.me/Danil_alto" target="_blank" rel="noreferrer">Написать в Telegram ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Источник: UseCase_17_RealEstateDataSync.docx</div>
+    </div>
+  </footer>
+
+  <script src="../../assets/usecases.js"></script>
+</body>
+</html>

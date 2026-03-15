@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ИИ-система performance-трекинга сотрудников — AIHUB.WORKS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/usecases.css" />
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a href="/" class="logo" aria-label="AIHUB.WORKS">
+          <div class="logo-icon">AI</div>
+          <div class="logo-text">AIHUB<span>.WORKS</span></div>
+        </a>
+        <a href="https://t.me/Danil_alto" class="nav-cta" target="_blank" rel="noreferrer">
+          Написать в Telegram ↗
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <a class="backlink" href="../">← Все кейсы</a>
+      <div style="height:14px"></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Use Case 18 · performance tracking</div>
+      <h1>ИИ-система performance-трекинга сотрудников</h1>
+      <p class="sub">Многопараметрический скоринг с персонализированной коммуникацией и action plans</p>
+      <div class="meta-row">
+        <div class="meta">
+          <div class="meta-k">Срок</div>
+          <div class="meta-v">70 рабочих дней</div>
+        </div>
+        <div class="meta">
+          <div class="meta-k">Технология</div>
+          <div class="meta-v">Python, OpenAI API, Telegram Bot API</div>
+        </div>
+        <div class="meta">
+          <div class="meta-k">Метрика</div>
+          <div class="meta-v">78% открывают отчёты в день получения</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <div class="label">Бизнес-задача</div>
+          <div class="p">Клиент — крупная сеть фитнес-клубов — управлял командой из 150+ тренеров и сотрудников сервиса. Существующая система KPI была непрозрачной: сотрудники не понимали, на основе каких данных оцениваются, не получали своевременной обратной связи и не знали, что именно нужно улучшить. HR-команда тратила 2 недели в квартал на ручной сбор и расчёт показателей. Текучесть кадров оставалась высокой.</div>
+        </div>
+        <div class="card">
+          <div class="label">Реализованное решение</div>
+          <div class="p">Построена AI-система, которая автоматически собирает данные по 12+ метрикам, рассчитывает многопараметрический скоринг, визуализирует результаты и отправляет каждому сотруднику персонализированный отчёт с конкретными рекомендациями.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Ключевые компоненты системы</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">01</div>
+            <div class="step-title">Многопараметрический скоринг (100-балльная шкала)</div>
+          </div>
+          <div class="step-desc">система оценивает эффективность каждого сотрудника по 12+ метрикам: клиентские показатели (NPS, продления, отзывы), продажи, посещаемость и пунктуальность, внутренние показатели. Каждая метрика имеет настраиваемый вес в итоговом балле.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">02</div>
+            <div class="step-title">Автоматизированный сбор данных</div>
+          </div>
+          <div class="step-desc">система интегрирована с CRM клуба, расписанием, кассовой системой и платформой для отзывов. Данные агрегируются автоматически — без ручного ввода.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">03</div>
+            <div class="step-title">Система визуализации с цветовой индикацией</div>
+          </div>
+          <div class="step-desc">итоговый балл определяет «клуб» сотрудника: зелёный (топ-перформеры, 80–100 баллов), жёлтый (средний уровень, 60–79 баллов), красный (зона риска, ниже 60 баллов). Визуализация включает радарную диаграмму по всем метрикам и динамику за период.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">04</div>
+            <div class="step-title">Персонализированные performance-отчёты</div>
+          </div>
+          <div class="step-desc">каждый сотрудник автоматически получает индивидуальный отчёт: итоговый балл, позиция в команде (анонимный рейтинг), детализация по каждой метрике, сравнение с предыдущим периодом.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">05</div>
+            <div class="step-title">Генератор персонализированных action plans</div>
+          </div>
+          <div class="step-desc">на основе профиля слабых метрик LLM формирует конкретные рекомендации для каждого сотрудника: не общие советы, а специфические действия. Например: «запишитесь на тренинг по продажам» или «обратите внимание на опоздания в среду — у вас 3 случая за месяц».</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">06</div>
+            <div class="step-title">Автоматизированная коммуникация</div>
+          </div>
+          <div class="step-desc">система управляет всей коммуникацией: напоминания сотрудникам из жёлтой и красной зон, поздравления топ-перформерам, уведомления руководителям о сотрудниках в зоне риска.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">07</div>
+            <div class="step-title">HR-дашборд</div>
+          </div>
+          <div class="step-desc">руководство видит сводную картину по всей команде: распределение по клубам, динамику изменений, отделы с наибольшим числом сотрудников в красной зоне.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Технические особенности</div>
+      <div class="card">
+        <div class="p">Система реализована как набор автоматических процессов с расписанием: еженедельный расчёт оперативных метрик и ежемесячный полный пересчёт скоринга. Интеграции с CRM и расписанием реализованы через REST API.
+Генерация персонализированных action plans — наиболее технически интересная часть: LLM получает профиль конкретного сотрудника (все метрики, динамика, специализация) и генерирует рекомендации, которые сотрудники воспринимают как написанные лично для них, а не как шаблонный отчёт.
+Система сократила время HR-команды на составление отчётов с 2 недель до 0. Вовлечённость сотрудников в собственные показатели выросла: 78% сотрудников открывают отчёты в день получения.
+___
+Технология: Python, OpenAI API, REST API CRM, Google Sheets / PostgreSQL, Telegram Bot API
+Время внедрения: 70 рабочих дней</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div class="label" style="margin-bottom:6px">Следующий шаг</div>
+          <div style="font-size:14px;color:var(--subtle)">Созвон 20 минут → уточняем интеграции, данные и KPI → даём план внедрения.</div>
+        </div>
+        <a class="nav-cta" href="https://t.me/Danil_alto" target="_blank" rel="noreferrer">Написать в Telegram ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Источник: UseCase_18_PerformanceTracking.docx</div>
+    </div>
+  </footer>
+
+  <script src="../../assets/usecases.js"></script>
+</body>
+</html>

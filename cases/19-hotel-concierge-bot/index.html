@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Бот-консьерж для отеля — AIHUB.WORKS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/usecases.css" />
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a href="/" class="logo" aria-label="AIHUB.WORKS">
+          <div class="logo-icon">AI</div>
+          <div class="logo-text">AIHUB<span>.WORKS</span></div>
+        </a>
+        <a href="https://t.me/Danil_alto" class="nav-cta" target="_blank" rel="noreferrer">
+          Написать в Telegram ↗
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <a class="backlink" href="../">← Все кейсы</a>
+      <div style="height:14px"></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Use Case 19 · concierge bot</div>
+      <h1>Бот-консьерж для отеля</h1>
+      <p class="sub">Интеллектуальный ассистент для бронирования, обслуживания гостей и повышения лояльности</p>
+      <div class="meta-row">
+        <div class="meta">
+          <div class="meta-k">Срок</div>
+          <div class="meta-v">30 рабочих дней</div>
+        </div>
+        <div class="meta">
+          <div class="meta-k">Технология</div>
+          <div class="meta-v">Python, OpenAI API, Whisper, Twilio</div>
+        </div>
+        <div class="meta">
+          <div class="meta-k">Метрика</div>
+          <div class="meta-v">72% обращений без участия администратора</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <div class="label">Бизнес-задача</div>
+          <div class="p">Клиент — бутик-отель — испытывал перегрузку службы ресепшн: 60% обращений гостей составляли типовые вопросы (наличие номеров, цены, услуги) и запросы на бронирование. Администраторы тратили время на рутину вместо персонального сервиса. Иностранные гости испытывали языковой барьер, а разница часовых поясов не давала скорости в ответах. Маркетинговые возможности при общении с гостями не использовались системно.</div>
+        </div>
+        <div class="card">
+          <div class="label">Реализованное решение</div>
+          <div class="p">Разработан AI-консьерж, который ведёт естественный диалог с гостями на их языке, показывает актуальные варианты размещения, оформляет бронирование и персонализирует рекомендации на основе предпочтений гостя.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Ключевые компоненты системы</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">01</div>
+            <div class="step-title">Актуальные варианты размещения с ценами</div>
+          </div>
+          <div class="step-desc">бот в режиме реального времени показывает доступные номера с характеристиками, фотографиями и ценами. Данные синхронизируются с PMS (Exely) или OTA-платформой (Booking.com / TravelLine) через API — гость всегда видит актуальное наличие.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">02</div>
+            <div class="step-title">Оформление бронирования через интеграцию с OTA</div>
+          </div>
+          <div class="step-desc">бот принимает данные гостя и оформляет бронирование напрямую в системе управления отелем. Подтверждение с деталями бронирования автоматически отправляется гостю.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">03</div>
+            <div class="step-title">Многоязычный диалог</div>
+          </div>
+          <div class="step-desc">система автоматически определяет язык гостя и ведёт переписку на нём. Поддерживаются русский, английский, грузинский, немецкий, китайский и другие языки — без переключения режимов.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">04</div>
+            <div class="step-title">Персонализированные рекомендации</div>
+          </div>
+          <div class="step-desc">бот учитывает данные о предыдущих визитах гостя: предпочтения по типу номера, частые запросы, специальные поводы (дни рождения, годовщины). На основе этого формируются персонализированные предложения при следующем обращении.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">05</div>
+            <div class="step-title">Голосовой ассистент</div>
+          </div>
+          <div class="step-desc">помимо текстового чата, реализована голосовая версия ассистента для телефонных звонков. Гость может уточнить наличие номеров и получить базовую информацию голосом, не ожидая соединения с администратором.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">06</div>
+            <div class="step-title">Интеграция с программами дополнительных услуг</div>
+          </div>
+          <div class="step-desc">бот проактивно предлагает релевантные услуги отеля: трансфер, спа, ресторан, экскурсии. Предложения персонализированы под запрос гостя — например, при бронировании на выходные предлагается романтический пакет.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">07</div>
+            <div class="step-title">Система удержания и лояльности</div>
+          </div>
+          <div class="step-desc">после выезда гость получает автоматическое письмо с просьбой оставить отзыв, персонализированное предложение на следующий визит и приглашение в программу лояльности. Постоянным гостям бот автоматически применяет накопленные бонусы.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">08</div>
+            <div class="step-title">Аналитика запросов</div>
+          </div>
+          <div class="step-desc">система собирает и анализирует все обращения гостей: наиболее частые вопросы, популярные категории услуг, пики нагрузки по времени суток. Отчёты помогают маркетинговой команде точнее позиционировать услуги и выявлять неудовлетворённый спрос.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Технические особенности</div>
+      <div class="card">
+        <div class="p">Бот реализован на базе LLM с retrieval-augmented generation: актуальная информация об отеле, ценах и наличии номеров загружается из внешних систем при каждом запросе. Это гарантирует, что бот никогда не даёт устаревшую информацию о ценах или наличии.
+Ключевым вызовом стала интеграция с OTA-платформой: каждая система управления отелем имеет свой API. Решением стал адаптерный слой, который унифицирует работу с разными PMS (Property Management System).
+Голосовой канал реализован на базе Twilio + Whisper для распознавания речи с последующей обработкой тем же LLM, что и текстовый чат.
+Среднее время ответа бота — 3–5 секунд. Доля обращений, обработанных без участия администратора, составила 72% в первый месяц работы.
+___
+Технология: Python, OpenAI API, Whisper, Twilio, TravelLine / Bnovo API, Telegram Bot API / WhatsApp
+Время внедрения: 30 рабочих дней</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div class="label" style="margin-bottom:6px">Следующий шаг</div>
+          <div style="font-size:14px;color:var(--subtle)">Созвон 20 минут → уточняем интеграции, данные и KPI → даём план внедрения.</div>
+        </div>
+        <a class="nav-cta" href="https://t.me/Danil_alto" target="_blank" rel="noreferrer">Написать в Telegram ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Источник: UseCase_19_HotelConciergeBot.docx</div>
+    </div>
+  </footer>
+
+  <script src="../../assets/usecases.js"></script>
+</body>
+</html>

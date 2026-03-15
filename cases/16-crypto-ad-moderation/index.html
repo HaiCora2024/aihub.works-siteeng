@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI-модерация рекламы в криптосегменте — AIHUB.WORKS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/usecases.css" />
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a href="/" class="logo" aria-label="AIHUB.WORKS">
+          <div class="logo-icon">AI</div>
+          <div class="logo-text">AIHUB<span>.WORKS</span></div>
+        </a>
+        <a href="https://t.me/Danil_alto" class="nav-cta" target="_blank" rel="noreferrer">
+          Написать в Telegram ↗
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <a class="backlink" href="../">← Все кейсы</a>
+      <div style="height:14px"></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Use Case 16 · crypto moderation</div>
+      <h1>AI-модерация рекламы в криптосегменте</h1>
+      <p class="sub">Интеллектуальная система проверки рекламных материалов с многоуровневым скорингом</p>
+      <div class="meta-row">
+        <div class="meta">
+          <div class="meta-k">Срок</div>
+          <div class="meta-v">60 рабочих дней</div>
+        </div>
+        <div class="meta">
+          <div class="meta-k">Технология</div>
+          <div class="meta-v">Python, OpenAI API, OCR, PostgreSQL</div>
+        </div>
+        <div class="meta">
+          <div class="meta-k">Метрика</div>
+          <div class="meta-v">нагрузка на команду −80%</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <div class="label">Бизнес-задача</div>
+          <div class="p">Клиент — рекламная платформа, специализирующаяся на крипто- и Web3-сегменте — столкнулась с волной недобросовестных рекламодателей: скам-проектов, манипулятивных обещаний доходности, нелицензированных финансовых продуктов. Ручная модерация командой из 4 человек не справлялась с объёмом: рассмотрение одной заявки занимало 20–40 минут, очередь растягивалась на 3–5 дней. Репутационные риски росли.</div>
+        </div>
+        <div class="card">
+          <div class="label">Реализованное решение</div>
+          <div class="p">Разработана AI-система модерации, которая автоматически проверяет рекламные материалы по 22 критериям, классифицирует их по уровню риска и формирует детальный отчёт с обоснованием для каждого решения.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Ключевые компоненты системы</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">01</div>
+            <div class="step-title">Правила модерации по 22 критериям</div>
+          </div>
+          <div class="step-desc">структурированный свод правил охватывает: гарантии доходности, признаки финансовой пирамиды, нелицензированную деятельность, манипулятивные триггеры, ложные партнёрства с известными брендами, признаки скама и rug pull.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">02</div>
+            <div class="step-title">OCR-модуль анализа визуальных материалов</div>
+          </div>
+          <div class="step-desc">извлекает текст с баннеров, изображений и видео-превью. Распознаёт мелкий текст с дисклеймерами и скрытые манипулятивные элементы.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">03</div>
+            <div class="step-title">Проверка токенов и проектов</div>
+          </div>
+          <div class="step-desc">автоматически запрашивает данные о рекламируемом токене/проекте на CoinGecko, CoinMarketCap, RugCheck, токен-сканерах. Проверяет контракт, ликвидность, историю транзакций.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">04</div>
+            <div class="step-title">Репутационный анализ рекламодателя</div>
+          </div>
+          <div class="step-desc">система собирает отзывы о рекламодателе на тематических форумах, агрегаторах жалоб и в социальных сетях. Проверяет историю предыдущих рекламных кампаний.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">05</div>
+            <div class="step-title">Скоринговая система</div>
+          </div>
+          <div class="step-desc">каждый материал получает итоговый балл риска. Классификация: зелёная зона (автоматическое одобрение), жёлтая зона (требует ревью модератора), красная зона (автоматический отказ с формированием причин).</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">06</div>
+            <div class="step-title">Генератор отчётов о нарушениях</div>
+          </div>
+          <div class="step-desc">для каждого материала формируется детальный отчёт: какие критерии сработали, с каким весом, что именно найдено (цитата из текста или скриншот), ссылки на источники при проверке репутации.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">07</div>
+            <div class="step-title">Аудит-логи</div>
+          </div>
+          <div class="step-desc">все решения системы фиксируются с полным набором данных: время проверки, версия правил, промежуточные результаты каждого модуля. Полная прозрачность для внутреннего аудита и при спорах с рекламодателями.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Технические особенности</div>
+      <div class="card">
+        <div class="p">Система реализована как многоэтапный pipeline: каждый модуль проверки работает параллельно и независимо, результаты агрегируются на финальном этапе скоринга. Это позволяет проверять один материал за 2–4 минуты против 20–40 минут при ручной модерации.
+LLM используется для семантического анализа текста и классификации нарушений, OCR — для обработки визуальных материалов, внешние API — для on-chain верификации.
+Важным архитектурным решением стала документируемость каждого вывода AI: система не просто выносит вердикт, но цитирует конкретные фрагменты материала, которые стали основанием — это критично для юридически значимых споров с рекламодателями.
+Система снизила нагрузку на команду модерации на 80% и сократила время проверки с 3–5 дней до 2–4 часов.
+___
+Технология: Python, OpenAI API, OCR, CoinGecko API, Web-scraping, PostgreSQL
+Время внедрения: 60 рабочих дней</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div class="label" style="margin-bottom:6px">Следующий шаг</div>
+          <div style="font-size:14px;color:var(--subtle)">Созвон 20 минут → уточняем интеграции, данные и KPI → даём план внедрения.</div>
+        </div>
+        <a class="nav-cta" href="https://t.me/Danil_alto" target="_blank" rel="noreferrer">Написать в Telegram ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Источник: UseCase_16_CryptoAdModeration.docx</div>
+    </div>
+  </footer>
+
+  <script src="../../assets/usecases.js"></script>
+</body>
+</html>

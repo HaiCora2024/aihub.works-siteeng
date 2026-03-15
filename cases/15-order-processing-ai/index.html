@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI-система автоматической обработки заказов — AIHUB.WORKS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/usecases.css" />
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a href="/" class="logo" aria-label="AIHUB.WORKS">
+          <div class="logo-icon">AI</div>
+          <div class="logo-text">AIHUB<span>.WORKS</span></div>
+        </a>
+        <a href="https://t.me/Danil_alto" class="nav-cta" target="_blank" rel="noreferrer">
+          Написать в Telegram ↗
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <a class="backlink" href="../">← Все кейсы</a>
+      <div style="height:14px"></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Use Case 15 · order processing</div>
+      <h1>AI-система автоматической обработки заказов</h1>
+      <p class="sub">Интеллектуальная обработка документов с интеграцией в 1С</p>
+      <div class="meta-row">
+        <div class="meta">
+          <div class="meta-k">Срок</div>
+          <div class="meta-v">70 рабочих дней</div>
+        </div>
+        <div class="meta">
+          <div class="meta-k">Технология</div>
+          <div class="meta-v">Python, Azure Document Intelligence, OpenAI API</div>
+        </div>
+        <div class="meta">
+          <div class="meta-k">Метрика</div>
+          <div class="meta-v">с 3–4 часов до 20 мин/день</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <div class="label">Бизнес-задача</div>
+          <div class="p">Клиенту — оптовой компании — требовалась система автоматической обработки входящих заказов от покупателей. Заказы поступали в разных форматах: сканированные PDF, таблицы Excel, документы Word. Менеджеры вручную перебивали позиции в 1С, тратя 3–4 часа в день, при этом регулярно допуская ошибки в артикулах и количестве. Несовпадение наименований товаров у клиента и в номенклатуре компании приводило к задержкам и конфликтам.</div>
+        </div>
+        <div class="card">
+          <div class="label">Реализованное решение</div>
+          <div class="p">Построена AI-система, которая принимает документы любого формата, автоматически извлекает позиции заказа, сопоставляет их с внутренней номенклатурой и формирует готовое коммерческое предложение с последующей передачей данных в 1С.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Ключевые компоненты системы</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">01</div>
+            <div class="step-title">Универсальный приёмник документов</div>
+          </div>
+          <div class="step-desc">принимает файлы в форматах PDF, XLSX, XLS, DOCX через email, Telegram-бот или веб-форму. Автоматически определяет формат и маршрутизирует на соответствующий парсер.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">02</div>
+            <div class="step-title">OCR-модуль</div>
+          </div>
+          <div class="step-desc">распознаёт текст со сканированных и рукописных документов с точностью до 98%. Обрабатывает таблицы, рукописные пометки, печати и штампы.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">03</div>
+            <div class="step-title">NLP-движок извлечения позиций</div>
+          </div>
+          <div class="step-desc">с помощью языковой модели извлекает из неструктурированного текста наименование товара, артикул, количество, единицу измерения, цену. Обрабатывает аббревиатуры, опечатки и нестандартные обозначения.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">04</div>
+            <div class="step-title">Семантический матчинг номенклатуры</div>
+          </div>
+          <div class="step-desc">сопоставляет извлечённые позиции с внутренним каталогом компании методом семантического поиска (векторные эмбеддинги). Находит соответствия даже при расхождении в названии, бренде или единицах измерения. При низкой уверенности — флагирует позицию для ручной проверки.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">05</div>
+            <div class="step-title">Генератор коммерческого предложения</div>
+          </div>
+          <div class="step-desc">автоматически формирует КП в фирменном шаблоне с актуальными ценами, остатками и сроками поставки.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">06</div>
+            <div class="step-title">Интеграция с 1С</div>
+          </div>
+          <div class="step-desc">через REST API передаёт подтверждённые позиции заказа напрямую в бухгалтерскую систему, исключая ручной ввод.</div>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <div class="badge">07</div>
+            <div class="step-title">Контроль качества и логирование</div>
+          </div>
+          <div class="step-desc">каждая позиция получает скоринговую оценку уверенности. Позиции ниже порога автоматически выделяются для проверки менеджером. Система ведёт полный журнал обработки каждого документа.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-title">Технические особенности</div>
+      <div class="card">
+        <div class="p">Система построена на связке OCR (Tesseract / Azure Document Intelligence) + LLM для извлечения сущностей + векторная база данных для семантического поиска по номенклатуре. Интеграция с 1С реализована через odata REST API.
+Критичным оказался дизайн fallback-логики: для позиций, которые система не смогла сопоставить с уверенностью выше порога, автоматически создаётся задача в CRM с контекстом распознавания — менеджер видит, что именно система поняла из документа и почему не уверена в соответствии.
+Система обрабатывает один документ за 15–40 секунд, что сократило время обработки заказов с 3–4 часов до 20 минут в день на весь поток.
+___
+Технология: Python, Azure Document Intelligence, OpenAI API, 1С REST API, векторная БД
+Время внедрения: 70 рабочих дней</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div class="label" style="margin-bottom:6px">Следующий шаг</div>
+          <div style="font-size:14px;color:var(--subtle)">Созвон 20 минут → уточняем интеграции, данные и KPI → даём план внедрения.</div>
+        </div>
+        <a class="nav-cta" href="https://t.me/Danil_alto" target="_blank" rel="noreferrer">Написать в Telegram ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Источник: UseCase_15_OrderProcessingAI.docx</div>
+    </div>
+  </footer>
+
+  <script src="../../assets/usecases.js"></script>
+</body>
+</html>
